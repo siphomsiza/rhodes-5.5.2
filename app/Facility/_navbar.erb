@@ -1,0 +1,8 @@
+<div data-role="navbar">
+    <ul>
+        <li><a href="<%= url_for :controller => :Facility, :action => :show, :id => facility.object %>" data-transition="slidedown" class="<%= tab_index==1 ? 'ui-btn-active' : 'ui-state-persist' %>">Facility Info</a></li>
+        <li><a href="<%= url_for :controller => :Building, :action => :index, :query => {:facility_id=>facility.object} %>" data-transition="slidedown" class="<%= tab_index== 2 ? 'ui-btn-active' : 'ui-state-persist' %>">Buildings</a></li>
+        <li><a href="<%= url_for :controller => :Component,:action => :index, :query => {:t=>'SiteworksConstruction',:src_t=>'Facility',:src_id=>facility.object}%>" data-transition="slidedown" class="<%= tab_index==3 ? 'ui-btn-active' : 'ui-state-persist' %>">Siteworks</a></li>
+        <li><a href="<%= url_for :controller => :Component,:action => :index, :query => {:t=>'EnvironmentalEngineeringConstruction',:src_t=>'Facility',:src_id=>facility.object}%>" data-transition="slidedown" class="<%= tab_index==4 ? 'ui-btn-active' : 'ui-state-persist' %>">Envir. Eng.</a></li>
+    </ul>
+</div><!-- /navbar -->

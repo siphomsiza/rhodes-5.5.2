@@ -1,0 +1,29 @@
+<div data-role="page" class="type-index" id='endorsement_index_page'>
+
+  <div data-role="header" data-theme="b">
+    <h1><%= @src.erf_number%></h1>
+    <a href="<%=url_for :controller=>:AssetInformation,:action=>:edit,:id=>@params['asset_information_id']%>" data-direction="reverse" data-icon="back">Back</a>
+    <a href="<%=Rho::RhoConfig.start_path%>" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-right jqm-home">Home</a>
+  </div><!-- /header -->
+
+  <div data-role="content" >
+      <div class="content-primary">
+        <ul data-role="listview">
+          <li data-role="list-divider">Endorsements<span class="ui-li-count"><%=@endorsements.length%></span></li>
+            <% @endorsements.each do |endorsement| %>
+              <li>
+                <a href="<%=url_for :controller=>:Endorsement,:action=>:edit,:id=>endorsement.object%>">
+                  <p><strong>Legal Endorsement <%= endorsement.endorse_no%></strong></p>
+                  <p><%=endorsement.holder%> <%=Rho::NumberHelper::number_to_currency(endorsement.amount)%></p>
+               </a>
+              </li>
+          <% end %>
+         </ul>
+       </div>
+  </div><!-- /ui-body wrapper -->
+
+  <div data-role="footer" data-theme="b">
+     <a href="<%=url_for :controller=>:Endorsement,:action=>:new,:query=>{:asset_information_id=>@params['asset_information_id']}%>" data-icon="add">Add</a>
+  </div><!-- /header -->
+
+</div>

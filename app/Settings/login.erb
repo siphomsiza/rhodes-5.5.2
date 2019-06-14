@@ -1,0 +1,28 @@
+<div data-role="page" class="type-index">
+  <div data-role="header" data-theme="b">
+  <h1>Login</h1>
+  <a href="<%=Rho::RhoConfig.start_path%>" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-right jqm-home">Home</a>
+  </div><!-- /header -->
+
+   <div data-role="content" data-inset="true">
+     <form method="POST" action="<%= url_for :action => :do_login %>" data-theme="b" data-transition="pop" data-ajax="false">
+         <% if @msg %>
+
+             <p style="color: red;"><%=@msg%></p>
+
+         <% end %>
+          <fieldset>
+           <label for="sync_server">Server</label>
+           <input type="text" id="sync_server" name="sync_server" value="<%= Rho::RhoConfig.syncserver%>" disabled="true"/>
+           <label for="login" >User Id</label>
+           <input type="text" name="login" id="login" value="<%= Rho::RhoConnectClient.userName%>" />
+           <label for="password" class="">Password</label>
+           <input type="password" name="password" id="password" />
+
+
+         <input type="submit" value="Login" data-inline="true"/>
+         </fieldset>
+     </form>
+
+   </div><!-- /ui-body wrapper -->
+</div><!-- /page -->

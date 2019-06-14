@@ -1,0 +1,56 @@
+<div data-role="page" class="type-interior" >
+
+  <div data-role="header" data-theme="b">
+  <a href="<%=url_for :controller=>:Facility,:action=>:show,:id=>@facility.object%>" data-ajax="false" data-icon="back"><%=@facility.code%></a>
+  <h1>Site Location</h1>
+  <a href="<%=Rho::RhoConfig.start_path%>" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-right jqm-home">Home</a>
+  </div><!-- /header -->
+
+  <div data-role="content" >
+    <div data-role="collapsible" data-collapsed="false">
+      <h3>Location</h3>
+      <input id="latitude" type="hidden" name="facility[latitude]" value=""/>
+      <input id="longitude" type="hidden" name="facility[longitude]" value=""/>
+      <table>
+        <%unless empty_position?(@facility.latitude,@facility.longitude)%>
+          <tr>
+            <td style="padding: 2px 0 2px 0;border: 1px solid #ffffff;" align="center"><img class="icon icons8-Google-Maps" width="16" height="16" size='16x16' src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAEm0lEQVRoge3WXUxbdRjHccwiV7v0shcGEqYhYFz5d4ql5wgjOqYOA6WJA6OGbZo5tziJRBzqNAO3OU10k8ZlC1kBJSzrWIIxlJeFkdIX1nWj5xQHKi8FRhldBwNXSn7esK6lPT0vtOVC/slz05yE7+ec87QkJW2c//FxpKcnO1WkhKVIE0sRJ0uR+ZVxslRWo1NFShzp6cnr3RnxOOmsYoYiQyxFEH0Ut9mXs4rWuzdwoFZvYlXkBH/4qlGRE1CrN613fxJLk5Oi41eGoRTHBf+h9GZ1skyrOS7TalwyrQaxmLc+3ykpPARBKwoFAWRaTU2swmVaDZ4+U4LOndlrB1BkyCqXPykAUDKxOkLZdBA6xoDJ+btYWvbDNTcDHWPAC40f8gJ2fxb97puVcuhJJvQkE2alPOq1TkqhFvIEQgLK2mow71tEpDM250bq2dKogDNv05xBrSQTlVtSUZGWgoq0FFRuSUUryeRG0EQnCpDddAALS/8CAP7xTuFwdx3evFyNT67W4cb0EHZcrOR9Au2vR359TC/JQ+KDEWblVi7EoChAI9sRiH/m3DuSdqB/uyJijJ5khMU/Gj3J4ALcFwWYejALADjcXRf4rLj1KxwzNYTMvvZTnAB7bkwBC6IAS8t+AMAu/ZHAZz/Z9GG7YJpkOQEdr0V+hcxKSa+QUxRgcv5u2BMo/+MkdIwBOsaAP2fHAADtI/2cgFPv5Ypa4iuKaEusqJO0AyPeO3j2/LshYc/V78H0Aw8AoNbUxAmgawt5vka3Qk8ycZlkwMJ958FSBA5V1vOiANlNBwJfoaP376DiqhaF+iP4uPtnDHlcAIB53yK2XtgXdZGb1Tlr/iFzqoiBN341QKbVoLTtGOZ8CxF/Bx76fXi//fuo8Sm/aNCjz4UzL/IyC5xFVqlIkwSQaTXY1rAfF5h2jM+58dDvw9icG5duX8OrFz/lje/qzQfYHMz88KL0u09lVQiK5wJImeB4sDmAIwejH2yTAvgdSUlPJBQQFr8yfrMSg7uE/2PHvLEdg7T8KcHxsQBwxYPNwb2BPbD9Wg+G5t8Hhlbg+m86iIpfK4Av3mrthcVqgv1oFS/g5jfVsFhNiQNEi/cGxVusJlj7euEoLuD+vi8ugKXvWuIA0eJ9wwcxMTECa785ALBYTbDpznECrjfUB66LO4Av3jM7DY/HA9eEKwwxsLcsLH5gb1nINXEFCI1/NKsRtvqzYQCb7nxiANHizZ2H0G1zh8RHRJiNYIoe7wJTVACL2Rh/QLR4U8ch5FXPIO8LLzpt93gR9tqjAYD9269D4uMCEBKvqvJCVeUVhOjXtwQA/VcuxRcgJl4wwmoC84oK7A5VWHxMAVLihSIGyndjoLw0foC1xAtB/PXjd7DXfBkfQCzixexETAGxjJeKkAyIR7wwxHgIQhIgnvGCEK7HCNGARMQLQYyvIEQDEhUvBPH3+Ih4wPRNajlR8XyI4alRv2hAW0++MTi+r+OjuMYHIzpssyGAlltdRtGA01305raefKPbTvuNnfsTEh+MMNxwY3hq1N9yq8t42tG8WTRg42ycjbNxEnL+A+xtF4cGwWeUAAAAAElFTkSuQmCC"></td>
+            <td style="padding: 2px 0 2px 0;border: 1px solid #ffffff;" align="center"><%=@facility.latitude%></td>
+            <td style="padding: 2px 0 2px 0;border: 1px solid #ffffff;" align="center"><%=@facility.longitude%></td>
+            <td style="padding: 2px 0 2px 0;border: 1px solid #ffffff;" align="center"><input type="submit" value="Clear" data-inline="true" data-icon="delete" data-iconpos="notext" /></td>
+          </tr>
+        <%end%>
+        <%if GeoLocation.known_position?%>
+          <tr>
+            <td style="padding: 2px 0 2px 0;border: 1px solid #ffffff;" align="center">Cur</td>
+            <td style="padding: 2px 0 2px 0;border: 1px solid #ffffff;" align="center"><%=GeoLocation.latitude%></td>
+            <td style="padding: 2px 0 2px 0;border: 1px solid #ffffff;" align="center"><%=GeoLocation.longitude%></td>
+            <td>
+              <form method="POST" name='location' action="<%= url_for :action => :update,:id=>@facility.object %>" data-theme="b" data-ajax="false" >
+                <input type="submit" value="Save" data-inline="true" data-icon="check" data-iconpos="notext" onclick="$('#latitude').val('<%=GeoLocation.latitude.to_s%>'),$('#longitude').val('<%=GeoLocation.longitude.to_s%>')"/>
+              </form>
+            </td>
+          </tr>
+        <%else%>
+          <tr><td colspan="4"><strong style="color:red;">The location system is not up or not acquired position.</strong></td></tr>
+        <%end%>
+     </table>
+    </div>
+    <%if !empty_position?(@facility.latitude,@facility.longitude) || GeoLocation.known_position? %>
+      <div align="center" width="100%">
+        <img src="https://maps.googleapis.com/maps/api/staticmap?zoom=12&size=256x256&maptype=mobile&markers=<%=@facility.latitude.empty? || @facility.longitude.empty? ? "#{GeoLocation.latitude},#{GeoLocation.longitude},greenc" : "#{@facility.latitude},#{@facility.longitude},red"%>&key=AIzaSyCajzr-Ym1gRM90bRaovLLDp445_f4Avvs"/>
+      </div>
+    <%end%>
+  </div><!-- /ui-body wrapper -->
+
+  <div data-role="footer" data-position="fixed" data-theme="b">
+    <%unless empty_position?(@facility.latitude,@facility.longitude) %>
+      <a href="<%= url_for :controller=>:Facility, :action=>:showmap, :id=>@facility.object%>" target="_self" >Map</a>
+    <%end%>
+    <a href="<%= url_for :controller=>:Facility,:action=>:location, :id=>@facility.object%>" target="_self">Refresh</a>
+    <%unless empty_position?(@facility.latitude,@facility.longitude) %>
+      <a href="/system/map?q=<%= @facility.latitude.to_s+','+@facility.longitude.to_s %>">Google Maps</a>
+    <%end%>
+  </div><!-- /footer -->
+
+</div><!-- /page -->

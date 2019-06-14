@@ -1,0 +1,34 @@
+<div data-role="page">
+  <div data-role="header" data-theme="b">
+    <a href="<%=url_for :controller=>:RatesHistory,:action=>:index,:query=>{:municipal_roll_register_id=>@municipal_roll_register.object}%>" data-icon="back">Return</a>
+    <h3>Rates History</h3>
+    <a href="<%=Rho::RhoConfig.start_path%>" data-ajax="false" data-icon="home" data-iconpos="notext" class="ui-btn-right jqm-home">Home</a>
+  </div>
+  <div data-role="content" >
+    <div data-role="collapsible" data-collapsed="false">
+      <h3><%=@rates_history.new_record? ? 'New Rate' : @rates_history.rate_year %></h3>
+      <form method="POST" action="<%=@rates_history.new_record? ? url_for(:controller=>:RatesHistory,:action=>:create) : url_for(:controller=>:RatesHistory,:action=>:update,:id=>@rates_history.object)%>" data-ajax="false">
+        <%if @rates_history.new_record? %>
+          <label for="rate_year">Rate Year:<%=show_error(@rates_history.errors,:rate_year)%></label>
+          <input type="range" id="rate_year" name="rates_history[rate_year]" value="<%=@rates_history.rate_year%>" min="1900" max="2012" step="1">
+        <%end%>
+
+        <label for="rate">Rate (<%=LocalizationSimplified::NumberHelper::CurrencyOptions[:unit]%>):<%=show_error(@rates_history.errors,:rate)%></label>
+        <input type="number" id="rate" name="rates_history[rate]" value="<%=@rates_history.rate%>">
+
+        <label for="rateable_value">Rateable Value (<%=LocalizationSimplified::NumberHelper::CurrencyOptions[:unit]%>):<%=show_error(@rates_history.errors,:rateable_value)%></label>
+        <input type="number" id="rateable_value" name="rates_history[rateable_value]" value="<%=@rates_history.rateable_value%>">
+
+        <input type="hidden" name="rates_history[municipal_roll_register_id]" value="<%=@rates_history.municipal_roll_register_id%>"/>
+        <input type="submit" name="commit" value="Save" data-inline="true"/>
+        <%unless @rates_history.new_record?%>
+          <a href="<%=url_for :controller=>:RatesHistory,:action=>:delete,:id=>@rates_history.object%>" data-role="button" data-inline="true">Delete</a>
+        <%end%>
+      </form>
+
+    </div>
+
+  </div>
+</div>
+
+

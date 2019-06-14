@@ -1,0 +1,65 @@
+<div data-role="page" class="type-index" >
+
+  <div data-role="header" data-theme="b">
+  <a href="<%=url_for :controller=>:Building,:action=>:index,:query=>{:facility_id=>@building.facility.object}%>" data-direction="reverse" data-icon="back">Return</a>
+  <h2>New Building</h2>
+  <a href="<%=Rho::RhoConfig.start_path%>" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-right jqm-home">Home</a>
+  </div><!-- /header -->
+
+  <div data-role="content" >
+
+    <form  method="POST" action="<%= url_for :action => :create %>" data-theme="b" data-ajax="false">
+      <div data-role="fieldcontain">
+        <label for="building_no">Number:<%=show_error(@building.errors,:building_no)%></label>
+        <input type="number" name="building[building_no]" id="building_no" value="<%=@building.building_no%>" /> <br/>
+
+        <label for="building_name">Name:<%=show_error(@building.errors,:name)%></label>
+        <input type="text" name="building[name]" id="building_name" value="<%=@building.name%>" /> <br/>
+
+	    <label for="building[building_type_id]" class="select">Building Type:<%=show_error(@errors,:building_type_id)%></label>
+        <%=select("building[building_type_id]",Lookup.find_all_by_type('BuildingType'), @building.building_type_id)%> <br/>
+
+        <label for="building[condition_index_id]" >Condition Index:</label>
+  	    <%=select("building[condition_index_id]",Lookup.find_all_by_type('Condition'), @building.condition_index_id)%><br/>
+
+        <label for="building[building_standard_id]" >Building Standard:<%=show_error(@errors,:building_standard_id)%></label>
+        <%=select("building[building_standard_id]",Lookup.find_all_by_type('BuildingStandard'), @building.building_standard_id)%><br/>
+
+        <label for="first_year_of_occupation">First Year of Occupation:<%=show_error(@building.errors,:first_year_of_occupation)%></label>
+        <input type="number" name="building[first_year_of_occupation]" id="first_year_of_occupation" value="<%= @building.first_year_of_occupation%>" min="1900" max="2011"  /><br/>
+
+        <label for="last_maintenance_year">Last Maintenance Year:<%=show_error(@building.errors,:last_maintenance_year)%></label>
+        <input type="number" name="building[last_maintenance_year]" id="last_maintenance_year" value="<%= @building.last_maintenance_year%>" min="1900" max="2011"  /><br/>
+
+        <input type="checkbox" name="building[is_heritage]" id="is_heritage" value="true" <%=checked 'true',@building.is_heritage %>/>
+        <label for="is_heritage">Heritage?</label>
+        <input value="" type=hidden name="component[is_heritage]">
+
+        <label for="utilisation_status">Utilisation status:<%=show_error(@building.errors,:utilisation_status)%></label>
+        <input type="range" name="building[utilisation_status]" id="utilisation_status" value="<%= @building.utilisation_status%>" min="0" max="100"  step="5"/><br/>
+
+        <label for="floor_count">Floor count:<%=show_error(@building.errors,:floor_count)%></label>
+        <input type="range" name="building[floor_count]" id="floor_count" value="<%= @building.floor_count%>" min="1" max="100" step="1" /><br/>
+
+        <label for="total_footprint_area">Total Footprint area (m<sup>2</sup>):<%=show_error(@building.errors,:total_footprint_area)%></label>
+        <input type="number" name="building[total_footprint_area]" id="total_footprint_area" value="<%= @building.total_footprint_area%>" /><br/>
+
+        <label for="total_construction_area">Total Construction area (m<sup>2</sup>):<%=show_error(@building.errors,:total_construction_area)%></label>
+        <input type="number" name="building[total_construction_area]" id="total_construction_area" value="<%= @building.total_construction_area%>" /><br/>
+
+        <label for="building[disabled_access_id]">Disabled Access:</label>
+        <%=select("building[disabled_access_id]", Lookup.find_all_by_type('DisabledAccess'), @building.disabled_access_id)%><br/>
+
+        <label for="disabled_comment">Disabled Comments:<%=show_error(@building.errors,:disabled_comment)%></label>
+        <textarea cols="40" rows="6" name="building[disabled_comment]" id="disabled_comment"><%=@building.disabled_comment%></textarea><br/>
+
+        <label for="construction_description">Description:<%=show_error(@building.errors,:construction_description)%></label>
+        <input type="text" name="building[construction_description]" id="building_construction_description" value="<%=@building.construction_description%>" /><br/>
+
+        <input type="hidden" name="building[facility_id]" value="<%=@building.facility.object%>" />
+        <input type="submit" value="Create" data-inline="true">
+      </div>
+    </form>
+  </div><!-- /ui-body wrapper -->
+
+</div><!-- /page -->

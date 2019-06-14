@@ -1,0 +1,28 @@
+<div data-role="page" class="type-index" >
+
+  <div data-role="header" data-theme="b">
+  <a href="<%=url_for :controller=>:Facility,:action=>:show,:id=>@facility.object%>" data-icon="back">Facility</a>
+  <h1><%=@facility.code%></h1>
+  <a href="<%=Rho::RhoConfig.start_path%>" data-icon="home" data-iconpos="notext" class="ui-btn-right jqm-home">Home</a>
+
+   </div><!-- /header -->
+
+  <div data-role="content" >
+    <div class="content-primary">
+      <ul data-role="listview">
+        <li data-role="list-divider">Boundary Polygons<span class="ui-li-count"><%=@boundary_polygons.length%></span></li>
+           <% @boundary_polygons.each do |boundary_polygon| %>
+           <li><a href="<%=url_for :controller=>:BoundaryPolygon, :action=>:edit, :id=>boundary_polygon.object, :query=>{:facility_id=>@facility.object} %>" data-ajax="false">
+                                <h3><%= boundary_polygon.polygon_type_text%></h3>
+                                <p><strong><%=boundary_polygon.remarks %></strong></p>
+                </a></li>
+        <% end %>
+       </ul>
+     </div>
+ </div><!-- /ui-body wrapper -->
+
+  <div data-role="footer" data-theme="b">
+   <a href="<%=url_for :controller=>:BoundaryPolygon,:action=>:new,:query=>{:facility_id=>@facility.object}%>" data-icon="add">Add</a>
+  </div><!-- /footer -->
+
+</div>

@@ -1,0 +1,123 @@
+<%load_lookups @component.t %>
+<div data-role="page" id="form_page" >
+
+  <div data-role="header" data-theme="b">
+  <h1><%="#{ELEMENT_TITLES[@component.t]} Element"%></h1>
+  <a href="<%=url_for :controller=>:Component,:action=>:index,:query=>{:t=>@component.t,:src_t=>@component.src_t,:src_id=>@component.src_id}%>" data-icon="back">Return</a>
+  <a href="<%=Rho::RhoConfig.start_path%>" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-right jqm-home">Home</a>
+
+  </div><!-- /header -->
+  <div data-role="content" >
+    <div data-role="collapsible-set" data-theme="c" data-content-theme="d">
+      <div data-role="collapsible" <%='data-collapsed="false"' if @component.new_record? || !@component.errors.empty? %> >
+        <h3><%="#{@component.item_no} #{@component.new_record? ? 'New Elemnt' : @component.element_text}" %></h3>
+        <form method="POST" action="<%= @component.new_record? ? url_for(:controller=>:Component,:action=>:create) : url_for(:controller=>:Component,:action=>:update,:id=>@component.object) %>" data-theme="b" data-ajax="false" >
+
+              <label for="element_id">Element:<%=show_error(@component.errors,:element_id) %></label>
+              <%=select("component[element_id]",@elements, @component.element_id)%><br/>
+
+              <input type="checkbox" name="component[is_present]" id="is_present" value="true" <%=checked 'true',@component.is_present %>/>
+              <label for="is_present">Present?</label>
+              <input value="" type=hidden name="component[is_present]">
+              <br/>
+
+              <label for="component[suitability_rating_id]" class="select">Suitability Rating:</label>
+              <%=select("component[suitability_rating_id]",@suitability_ratings, @component.suitability_rating_id)%>
+
+              <label for="component[material_type_id]" class="select">Material type:</label>
+              <%=select("component[material_type_id]",@material_types, @component.material_type_id)%><br/>
+
+              <label for="component[life_cycle_id]" class="select">Life Cycle:</label>
+              <%=select("component[life_cycle_id]",@life_cycles, @component.life_cycle_id)%><br/>
+
+              <label for="component[cause_reason_id]" class="select">Cause/Reason:</label>
+              <%=select("component[cause_reason_id]",@cause_reasons, @component.cause_reason_id)%><br/>
+
+              <%if (@component.t == 'EnvironmentalEngineeringConstruction') || (@component.t == 'SiteworksConstruction') %>
+              <label for="component[maintenance_strategy_id]" class="select">Maintenance Strategy:</label>
+              <%=select("component[maintenance_strategy_id]",@maintenance_strategies, @component.maintenance_strategy_id)%><br/>
+              <%end%>
+
+              <label for="comments">Comments:<%=show_error(@component.errors,:comments)%></label>
+              <input type="text" name="component[comments]" id="comments" value="<%=@component.comments%>"></textarea>
+              </br>
+              <input type="checkbox" id="no_comments" onclick="$('#comments').val('n/a');"/>
+              <label for="no_comments">No comments</label>
+              </br>
+          <div data-role="collapsible" data-collapsed="false">
+            <h3>Condition Breakdown:<br/><%=show_error(@component.errors,:condition_rating_level_1)%></h3>
+            <label for="condition_rating_level_1">Excellent:</label>
+            <input type="range" name="component[condition_rating_level_1]" id="condition_rating_level_1" value="<%= @component.condition_rating_level_1%>" min="0" max="100" step="5" /><br/>
+
+            <label for="condition_rating_level_1">Good:</label>
+            <input type="range" name="component[condition_rating_level_2]" id="condition_rating_level_2" value="<%= @component.condition_rating_level_2%>" min="0" max="100" step="5" /><br/>
+
+            <label for="condition_rating_level_1">Fair:</label>
+            <input type="range" name="component[condition_rating_level_3]" id="condition_rating_level_3" value="<%= @component.condition_rating_level_3%>" min="0" max="100" step="5" /><br/>
+
+            <label for="condition_rating_level_1">Inadequate:</label>
+            <input type="range" name="component[condition_rating_level_4]" id="condition_rating_level_4" value="<%= @component.condition_rating_level_4%>" min="0" max="100" step="5" /><br/>
+
+            <label for="condition_rating_level_1">Poor:</label>
+            <input type="range" name="component[condition_rating_level_5]" id="condition_rating_level_5" value="<%= @component.condition_rating_level_5%>" min="0" max="100" step="5" /><br/>
+          </div>
+
+          <%if @component.t == 'SiteworksConstruction' %>
+            <div data-role="collapsible">
+              <h3>Siteworks Dimensions</h3>
+              <label for="width">Width:</label>
+              <input type="number" name="component[width]" id="width" value="<%=@component.width%>"/>
+              <label for="length">Length:</label>
+              <input type="number" name="component[length]" id="length" value="<%=@component.length%>"/>
+              <label for="height">Height:</label>
+              <input type="number" name="component[height]" id="height" value="<%=@component.height%>"/>
+              <label for="area">Area:</label>
+              <input type="number" name="component[area]" id="area" value="<%=@component.area%>"/>
+            </div>
+          <%end%>
+
+          <input type="hidden" name="component[item_no]" value="<%= @component.item_no %>"/>
+          <input type="hidden" name="component[t]" value="<%= @component.t %>"/>
+          <input type="hidden" name="component[src_t]" value="<%= @component.src_t %>"/>
+          <input type="hidden" name="component[src_id]" value="<%= @component.src_id %>"/>
+
+          <%=submit @component%>
+          <% unless @component.new_record? && @component.can_modify %>
+            <a href="#delete_confirmation_page" data-icon="delete" data-role="button" data-inline="true">Delete</a>
+          <%end%>
+        </form>
+      </div>
+      <%= render :partial=>'MediaStore/form',:locals=>{:collapsed => !@component.errors.empty?, :source_params=>{:title=>'Element Image',:src_t=>'Component',:src_id=>@component.object,:t=>'Photo',:block=>'10'}} if !@component.new_record? && @component.errors.empty?%>
+    </div>
+  </div><!-- /ui-body wrapper -->
+
+</div><!-- /page -->
+
+<% unless @component.new_record? %>
+  <div data-role="page" id="take_photo_confirmation_page">
+    <div nobackbtn="true" data-role="header" data-theme="b">
+    <h1>Take Photo</h1>
+    </div><!-- /header -->
+
+    <div data-role="content">
+        <h2>Are you sure? </h2>
+        <a href="#form_page" data-rel="back" data-role="button" data-inline="true">Cancel</a>
+        <a href="<%= url_for :controller=>:MediaStore,:action => :take_photo, :query=>{:src_t=>'Component',:src_id=>@component.object,:t=>'Photo'} %>" data-role="button" data-inline="true">Confirm</a>
+    </div><!-- /ui-body wrapper -->
+
+  </div>
+
+<div  data-role="page" id="delete_confirmation_page" >
+  <div nobackbtn="true" data-role="header" data-theme="b">
+  <h1>Delete element</h1>
+  </div><!-- /header -->
+
+   <div data-role="content" id="confirm_content" >
+       <h2>Are you sure? </h2>
+       <p> <%=@component.element_text%> </p>
+          <a href="#form_page" data-rel="back" data-role="button" data-inline="true">Cancel</a>
+          <a href="<%=url_for :controller=>:Component,:action=>:delete,:id=>@component.object%>" data-role="button" data-inline="true">Confirm</a>
+   </div><!-- /ui-body wrapper -->
+
+</div>
+<%end%>

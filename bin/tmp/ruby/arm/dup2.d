@@ -1,0 +1,1 @@
+  /home/sipho/.rvm/gems/ruby-2.2.5/gems/rhodes-5.5.2/platform/android/../../platform/shared/ruby/missing/dup2.c   /home/sipho/.rvm/gems/ruby-2.2.5/gems/rhodes-5.5.2/platform/android/../shared/ruby/android/ruby/config.h

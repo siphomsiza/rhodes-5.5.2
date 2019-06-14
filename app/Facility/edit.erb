@@ -1,0 +1,47 @@
+<div data-role="page" id="form_page">
+
+  <div data-role="header" data-theme="b">
+    <h1><%=facility_title%></h1>
+    <a href="<%=url_for :controller=>:Facility,:action=>:show,:id=>@facility.object%>" data-ajax="false" data-icon="back">Return</a>
+    <a href="<%=Rho::RhoConfig.start_path%>" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-right jqm-home">Home</a>
+  </div><!-- /header -->
+
+  <div data-role="content" >
+    <%=render :partial=>'facility_information' if @params['block'] == '3'%>
+
+    <%=render :partial=>'facility_accessibility' if @params['block'] == '1' %>
+
+    <%=render :partial=>'facility_location' if @params['block'] == '2' %>
+
+    <%= render :partial=>'MediaStore/form',:locals=>{:source_params=>{:title=>'Site Image',:src_t=>'Facility',:src_id=>@facility.object,:t=>'Photo',:block=>'10'}} if @params['block']=='10'%>
+    <%= render :partial=>'MediaStore/form',:locals=>{:source_params=>{:title=>'Site Layout Plan',:src_t=>'Facility',:src_id=>@facility.object,:t=>'DrawningPlan',:block=>'11'}} if @params['block']=='11'%>
+
+  </div><!-- /ui-body wrapper -->
+
+  <%if @params['block'] == '2' %>
+    <div data-role="footer" data-position="fixed" data-theme="b">
+      <%if System.get_property('has_network') && !empty_position?(@facility.latitude,@facility.longitude) %>
+        <a href="<%= url_for :controller=>:Facility, :action=>:showmap, :id=>@facility.object%>" target="_self" >Map</a>
+      <%end%>
+      <a href="<%= url_for :controller=>:Facility,:action=>:edit, :id=>@facility.object,:query=>{:block=>'2'}%>" target="_self">Refresh</a>
+      <%if System.get_property('has_network') && !empty_position?(@facility.latitude,@facility.longitude) %>
+        <a href="/system/map?q=<%= @facility.latitude.to_s+','+@facility.longitude.to_s %>">Google Maps</a>
+      <%end%>
+    </div><!-- /footer -->
+  <%end%>
+
+</div><!-- /page -->
+
+<div data-role="page" id="take_photo_confirmation_page">
+  <div nobackbtn="true" data-role="header" data-theme="b">
+  <h1>Take Photo</h1>
+  </div><!-- /header -->
+
+  <div data-role="content">
+      <h2>Are you sure? </h2>
+      <a href="#form_page" data-rel="back" data-role="button" data-inline="true">Cancel</a>
+      <a href="<%= url_for :controller=>:MediaStore,:action => :take_photo, :query=>{:collapsed => !@facility.errors.empty?,:src_t=>'Facility',:src_id=>@facility.object,:t=>'Photo'} %>" data-role="button" data-inline="true">Confirm</a>
+  </div><!-- /ui-body wrapper -->
+
+</div>
+

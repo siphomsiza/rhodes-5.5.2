@@ -1,0 +1,30 @@
+<div data-role="collapsible" <%= 'data-collapsed="false"' if @accessibilities.length < 2 %> >
+  <h3>Accessibility and Performance</h3>
+  <form method="POST" action="<%= url_for :action => :update,:id=>@facility.object,:query=>{:block=>@params['block']} %>" data-theme="b" data-ajax="false" >
+  <div data-role="fieldcontain">
+    <label for="facility[site_location_accessibility_id]" class="select">Site/Location Accessibility:</label>
+    <%= select("facility[site_location_accessibility_id]",@suitability_ratings, @facility.site_location_accessibility_id)%><br/>
+
+    <label for="facility[functionality_site_id]" class="select">Functionality – Site:</label>
+    <%= select("facility[functionality_site_id]",@suitability_ratings, @facility.functionality_site_id)%><br/>
+
+    <label for="facility[functionality_accomodation_id]" class="select">Functionality – Accommodation:</label>
+    <%= select("facility[functionality_accomodation_id]",@suitability_ratings, @facility.functionality_accomodation_id)%><br/>
+
+    <label for="facility[functionality_layout_id]" class="select">Functionality – Layout</label>
+    <%= select("facility[functionality_layout_id]",@suitability_ratings, @facility.functionality_layout_id)%><br/>
+
+    <label for="facility[required_performance_index_id]" class="select">Required Performance Index:</label>
+    <%= select("facility[required_performance_index_id]", Lookup.find_all_by_type('RequiredPerformanceIndex'), @facility.required_performance_index_id)%><br/>
+
+    <label for="facility[accessibility_rating_index_id]" class="select">Accessibility Rating Index:</label>
+    <%= select("facility[accessibility_rating_index_id]", Lookup.find_all_by_type('AccessibilityRatingIndex'), @facility.accessibility_rating_index_id)%><br/>
+
+    <input type="submit" value="Save" data-inline="true"/>
+  </div>
+  </form>
+</div>
+
+<% @accessibilities.each do |accessibility| %>
+  <%=render :partial=>'Accessibility/form',:locals=>{:accessibility=>accessibility}%>
+<%end%>

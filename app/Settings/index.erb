@@ -1,0 +1,46 @@
+<div data-role="page" id="settings_page">
+  <div data-role="header" data-theme="b">
+  <h1>Settings</h1>
+  <a href="<%=Rho::RhoConfig.start_path%>" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-right jqm-home">Home</a>
+  </div><!-- /header -->
+
+   <div data-role="content" id="settings_content">
+      <p><span style='color:#FF0000;'><%= @msg %></span></p>
+      <p> Client ID:<%= Rhom::Rhom::client_id%></p>
+      <p><%= %></p>
+      <p>  <a href="#conf_page" data-role="button" data-transition="pop">Reset Database</a>   </p>
+      <p>  <a href="<%=url_for :action=>:backup%>" data-role="button" data-transition="pop">Backup Database<br/>Folder:<%=Rho::RhoConfig.backup_folder%></a>   </p>
+      <%if File.exists?(Rho::RhoConfig.backup_folder) && File.exists?("#{Rho::RhoConfig.backup_folder}/syncdbuser.sqlite")%>
+        <p>  <a href="#restore_confirm_page" data-role="button" data-transition="pop" >Restore Database<br/>Created:<%=File.ctime("#{Rho::RhoConfig.backup_folder}/syncdbuser.sqlite")%>.</a>   </p>
+      <%end%>
+     <p>  <a href="<%=url_for :controller=>:ChangedValues,:action=>:index%>" data-role="button" data-transition="pop">Changed Values Index</a>   </p>
+   </div><!-- /ui-body wrapper -->
+</div><!-- /page -->
+
+<div  data-role="page" id="conf_page" >
+  <div nobackbtn="true" data-role="header" data-theme="b">
+  <h1>Reset Database</h1>
+  </div><!-- /header -->
+
+   <div data-role="content" id="confirm_content" >
+       <h2>Are you sure? </h2>
+       <p>Resetting removes all objects from your device.</p>
+          <a href="#settings_page" data-rel="back" data-role="button" data-inline="true">Cancel</a>
+          <a href="<%= url_for :action => :do_reset %>" data-role="button" data-inline="true" data-ajax="false">Confirm</a>
+   </div><!-- /ui-body wrapper -->
+
+</div>
+
+<div  data-role="page" id="restore_confirm_page" >
+  <div nobackbtn="true" data-role="header" data-theme="b">
+  <h1>Restore Database</h1>
+  </div><!-- /header -->
+
+   <div data-role="content" >
+       <h2>Are you sure? </h2>
+       <p>Restore removes all current objects from your device.</p>
+          <a href="#settings_page" data-rel="back" data-role="button" data-inline="true">Cancel</a>
+          <a href="<%= url_for :action => :restore %>" data-role="button" data-inline="true" data-ajax="false">Confirm</a>
+   </div><!-- /ui-body wrapper -->
+
+</div>

@@ -1,0 +1,49 @@
+<div data-role="page">
+  <link rel="stylesheet" type="text/css" href="/public/css/jquery.mobile.datebox-1.0.1.css" />
+  <script type="text/javascript" src="/public/jqmobile/jquery.mobile.datebox-1.0.1.js"></script>
+  <script type="text/javascript">
+    $.extend($.mobile.datebox.prototype.options, { 'dateFormat': 'YYYY-mm-dd',  'headerFormat': 'YYYY-mm-dd' });
+  </script>
+
+  <div data-role="header" data-theme="b">
+    <a href="<%=url_for :controller=>:OwnershipDispute,:action=>:index,:query=>{:municipal_roll_register_id=>@municipal_roll_register.object}%>" data-icon="back">Return</a>
+    <h3>Ownership Dispute</h3>
+    <a href="<%=Rho::RhoConfig.start_path%>" data-ajax="false" data-icon="home" data-iconpos="notext" class="ui-btn-right jqm-home">Home</a>
+  </div>
+  <div data-role="content" >
+    <div data-role="collapsible" data-collapsed="false">
+      <h3><%=@ownership_dispute.new_record? ? 'New Ownership Dispute' : @ownership_dispute.dispute_no %></h3>
+      <form method="POST" action="<%=@ownership_dispute.new_record? ? url_for(:controller=>:OwnershipDispute,:action=>:create) : url_for(:controller=>:OwnershipDispute,:action=>:update,:id=>@ownership_dispute.object)%>" data-ajax="false">
+        <%if @ownership_dispute.new_record? %>
+          <label for="dispute_no">Dispute No:<%=show_error(@ownership_dispute.errors,:dispute_no)%></label>
+          <input type="text" id="dispute_no" name="ownership_dispute[dispute_no]" value="<%=@ownership_dispute.dispute_no%>">
+        <%end%>
+
+        <label for="description">Description:<%=show_error(@ownership_dispute.errors,:description)%></label>
+        <input type="text" id="description" name="ownership_dispute[description]" value="<%=@ownership_dispute.description%>">
+
+        <label for="name_of_claimant">Name of Claimant:<%=show_error(@ownership_dispute.errors,:name_of_claimant)%></label>
+        <input type="text" id="name_of_claimant" name="ownership_dispute[name_of_claimant]" value="<%=@ownership_dispute.name_of_claimant%>">
+
+        <label for="dispute_status_id" class="select">Dispute Status:</label>
+        <%=select("ownership_dispute[dispute_status_id]",Lookup.find_all_by_type('DisputeStatus'), @ownership_dispute.dispute_status_id)%>
+
+        <label for="date_of_registration">Date of Registration:<%=show_error(@ownership_dispute.errors,:date_of_registration)%></label>
+        <input type="date" id="date_of_registration" name="ownership_dispute[date_of_registration]" value="<%=@ownership_dispute.date_of_registration%>" pickPageTheme="b" data-role="datebox" data-options='{"mode": "slidebox"}'/>
+
+        <label for="dispute_result">Dispute Result:</label>
+        <input type="text" id="dispute_result" name="ownership_dispute[dispute_result]" value="<%=@ownership_dispute.dispute_result%>"/>
+
+        <input type="hidden" name="ownership_dispute[municipal_roll_register_id]" value="<%=@ownership_dispute.municipal_roll_register_id%>"/>
+        <input type="submit" name="commit" value="Save" data-inline="true"/>
+        <%unless @ownership_dispute.new_record?%>
+          <a href="<%=url_for :controller=>:OwnershipDispute,:action=>:delete,:id=>@ownership_dispute.object%>" data-role="button" data-inline="true">Delete</a>
+        <%end%>
+      </form>
+
+    </div>
+
+  </div>
+</div>
+
+

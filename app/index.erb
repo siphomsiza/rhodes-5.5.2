@@ -1,0 +1,45 @@
+<div data-role="page">
+
+  <table cellspacing="0" cellpading="0" border="0" width="100%" style="background-image:url('/public/images/countur.png'); background-position:top right; background-repeat:no-repeat;">
+    <tr>
+      <td width="80px"><img src="/public/images/logo.png"></td>
+      <td style=" font-size:18px; color:#878787;">SABLE Asset Suite<br /><span style="font-size:14px;">Asset Management System</span></td>
+    </tr>
+  </table>
+
+   <div data-role="content">
+
+    <ul data-role="listview" data-inset="true">
+      <%unless Facility.find(:all).empty?%>
+        <li><a href="<%= url_for :controller=>:Facility, :action=>:index%>"><img src="/public/images/note_icon.png"/>
+          <h3>Assess</h3><p><%="#{Facility.find(:count)} facilities"%></p></a></li>
+        <!-- <li><a href="" ><img src="/public/images/validate_icon.png"/>
+          <h3>Validate</h3></a></li>  !-->
+      <%end%>
+      <%if (Rho::RhoConnectClient.isLoggedIn)%>
+        <li><a href="<%= url_for :controller => :Settings, :action => :do_sync %>" data-ajax="false" ><img src="/public/images/refresh_icon.png" />
+          <h3>Sync</h3><p><%=Rho::RhoConfig.syncserver %></p>
+           <%if Rhom::any_model_changed? %>
+               <p class="ui-li-aside">
+                  <strong style="color:red;">Required</strong>
+               </p>
+           <%end%>   </a></li>
+        <li><a href="<%= url_for :controller => :Settings, :action => :logout %>" ><img src="/public/images/offline_icon.png"/>
+          <h3>Log Off</h3><p><%="Logged as: #{Rho::RhoConnectClient.userName}"%></p></a></li>
+      <%else%>
+          <li><a href="<%= url_for :controller => :Settings, :action => :login %>"><img src="/public/images/online_icon.png" width='100px' height="100px"/>
+          <h3>Log In</h3><p><%=Rho::RhoConnectClient.userName ? "Last logged as: #{Rho::RhoConnectClient.userName}" : 'First login' %></p></a></li>
+      <%end%>
+      <li><a href="<%= url_for :controller => :Settings, :action => :index %>" data-ajax="false"><img src="/public/images/settings_icon.png"/>
+        <h3>Settings</h3><p>Backup, Restore, Reset etc</p></a></li>
+
+    </ul>
+
+   </div><!-- /ui-body wrapper -->
+<div data-role="footer" data-position="fixed" data-theme="d">
+  <div style="border-top:1px dotted #bbbbbb; font-size:11px; color:#3f3f3f;" align="right">
+  <%="Version #{Rho::RhoConfig.app_version} (#{System::get_property('locale')} #{System.get_property('country')})"%> (&plusmn;<span class="accuracy">?m</span>) <br/>
+  Copyright &copy; SABLE Data Works (Pty) Ltd, 2009 - 2012. all rights reserved.&nbsp;&nbsp;&nbsp;&nbsp;
+  </div>
+</div>
+</div><!-- /page -->

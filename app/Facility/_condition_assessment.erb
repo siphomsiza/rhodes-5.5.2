@@ -1,0 +1,20 @@
+<div data-role="collapsible" <%='data-collapsed="false"' if @params['box'] && (@params['box'] == '2')%>>
+  <h3>Condition Assessment</h3>
+  <div class="ui-grid-a">
+    <div class="ui-block-a">
+      <ul data-role="listview" data-inset="true">
+        <li><a href="<%= url_for :controller => :Component,:action => :index, :query => {:t=>'SiteworksConstruction',:src_t=>'Facility',:src_id=>@facility.object}%>">
+          <img src="/public/images/siteworks_icon.png" /><h3>Siteworks</h3></a></li>
+        <li><a href="<%= url_for :controller => :Facility, :action=>:edit, :id => @facility.object,:query=>{:block=>'1'} %>" >
+          <img src="/public/images/access_icon.png" /><h3>Accessibility<br/>and Performance </h3></a></li>
+      </ul>
+    </div>
+    <div class="ui-block-b">
+      <ul data-role="listview" data-inset="true">
+        <li><a href="<%= url_for :controller => :Component,:action => :index, :query => {:t=>'EnvironmentalEngineeringConstruction',:src_t=>'Facility',:src_id=>@facility.object}%>">
+          <img src="/public/images/env_eng_icon.png" /><h3>Environmental<br/>Engineering</h3></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

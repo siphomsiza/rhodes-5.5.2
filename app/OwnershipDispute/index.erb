@@ -1,0 +1,29 @@
+<div data-role="page" class="type-index" id='rates_history_index_page'>
+
+  <div data-role="header" data-theme="b">
+    <h1>Disputes for <%=@municipal_roll_register.erf_number%></h1>
+    <a href="<%=url_for :controller=>:AssetInformation,:action=>:edit,:id=>@municipal_roll_register.object%>" data-direction="reverse" data-icon="back">Register</a>
+    <a href="<%=Rho::RhoConfig.start_path%>" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-right jqm-home">Home</a>
+  </div><!-- /header -->
+
+  <div data-role="content" >
+      <div class="content-primary">
+        <ul data-role="listview">
+          <li data-role="list-divider">Disputes<span class="ui-li-count"><%=@ownership_disputes.length%></span></li>
+            <% @ownership_disputes.each do |ownership_dispute| %>
+              <li>
+                <a href="<%= url_for :controller => :OwnershipDispute,:action=>:edit,:id=>ownership_dispute.object%>">
+                  <p><strong><%= ownership_dispute.dispute_no%> <%=ownership_dispute.name_of_claimant%></strong></p>
+                  <p><%= ownership_dispute.dispute_status_text%></p>
+                </a>
+              </li>
+          <% end %>
+         </ul>
+       </div>
+  </div><!-- /ui-body wrapper -->
+
+  <div data-role="footer" data-theme="b">
+     <a href="<%=url_for :controller=>:OwnershipDispute,:action=>:new,:query=>{:municipal_roll_register_id=>@municipal_roll_register.object}%>" data-icon="add">Add</a>
+  </div><!-- /header -->
+
+</div>

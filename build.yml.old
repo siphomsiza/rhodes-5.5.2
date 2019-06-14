@@ -1,0 +1,36 @@
+sdkversion: 5.5.2
+name: SABLE MAT
+capabilities:
+- camera
+- gps
+- phone
+version: 1.1.0
+vendor: SABLE Data Works (Pty Ltd)
+build: debug
+applog: rholog.txt
+android:
+  version: 6.0
+  abis: [x86]
+  #extensions: ["gmaps"]
+  extensions: ["nfc", "barcode", "digest", "digest-md5", "digest-sha1", "pdf-writer", "thread", "digest-sha2", "openssl.so", "openssl", "ezcrypto", "audiocapture", "gmaps"]
+  emulator: GalaxyTab4_API_23
+  mapping: yes
+  capabilities:
+  - network_state
+  - sdcard
+  apikey: 0WUXOrzuEiR2tYzVfMxvb4F8EWrx7suM4ypBvLw
+  mapping: true
+  android_title: 0
+  abis:
+    - x86
+win32:
+  deployqt: 1
+  deploymsvc: 1
+extensions:
+- json
+- rhoconnect-client
+#- gmaps
+rhobundle:
+  exclude_items:
+  - thumb.db
+#sdk: /home/sable/.rvm/gems/ruby-1.9.3-p551/gems/rhodes-5.5.0

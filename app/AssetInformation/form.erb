@@ -1,0 +1,68 @@
+<div data-role="page">
+  <div data-role="header" data-theme="b">
+    <a href="<%=url_for :controller=>:AssetInformation,:action=>:index,:query=>{:facility_id=>@asset_information.facility_id,:type=>@asset_information.type}%>" data-icon="back">Return</a>
+    <h3><%= @asset_information.type %></h3>
+    <a href="<%=Rho::RhoConfig.start_path%>" data-ajax="false" data-icon="home" data-iconpos="notext" class="ui-btn-right jqm-home">Home</a>
+  </div>
+
+  <div data-role="content" >
+    <%unless @asset_information.new_record?%>
+      <div data-role="controlgroup" data-type="horizontal" class="localnav">
+        <a href="<%= url_for :controller => :Endorsement,:action=>:index,:query=>{:asset_information_id=>@asset_information.object}%>" style="font-size: 11px;" data-role="button">Endorsements</a>
+        <a href="<%= url_for :controller => :OwnerInformation,:action=>:index,:query=>{:asset_information_id=>@asset_information.object}%>" style="font-size: 11px;" data-role="button">Owner Info</a>
+        <%if @asset_information.type == 'MunicipalRollRegister' %>
+          <a href="<%= url_for :controller => :OwnershipDispute,:action=>:index,:query=>{:municipal_roll_register_id=>@asset_information.object}%>" data-role="button" style="font-size: 10px;" data-role="button">Ownership<br/>Disputes</a>
+          <a href="<%= url_for :controller => :RatesHistory,:action=>:index,:query=>{:municipal_roll_register_id=>@asset_information.object}%>" style="font-size: 10px;" data-role="button">Rates<br/>Hitory</a>
+        <%end%>
+      </div>
+    <%end%>
+
+    <div data-role="collapsible" data-collapsed="false">
+      <h3><%=@asset_information.new_record? ? "New #{@asset_information.type}" : @asset_information.erf_number %></h3>
+      <form method="POST" action="<%=@asset_information.new_record? ? url_for(:controller=>:AssetInformation,:action=>:create) : url_for(:controller=>:AssetInformation,:action=>:update,:id=>@asset_information.object)%>" data-ajax="false">
+
+        <label for="erf_number">Erf No.:<%=show_error(@asset_information.errors,:erf_number)%></label>
+        <input type="text" id="erf_number" name="asset_information[erf_number]" value="<%=@asset_information.erf_number%>">
+
+        <%if @asset_information.type == 'DeedsOffice' %>
+          <label for="title_deed_number">Title Deed No.:<%=show_error(@asset_information.errors,:title_deed_number)%></label>
+          <input type="text" id="title_deed_number" name="asset_information[title_deed_number]" value="<%=@asset_information.title_deed_number %>">
+        <%end%>
+
+        <label for="extent">Extent (m<sup>2</sup>):<%=show_error(@asset_information.errors,:extent)%></label>
+        <input type="number" id="extent" name="asset_information[extent]" value="<%=@asset_information.extent%>">
+
+        <%if @asset_information.type == 'MunicipalRollRegister' %>
+          <label for="num_improvements">No. of Improvements:</label>
+          <input type="number" id="num_improvements" name="asset_information[num_improvements]" value="<%=@asset_information.num_improvements%>">
+
+          <label for="extent_improvements">Total Area of Improvements (m<sup>2</sup>):</label>
+          <input type="number" id="extent_improvements" name="asset_information[extent_improvements]" value="<%=@asset_information.extent_improvements%>">
+
+          <label for="asset_information[zoning_id]" class="select">Zoning:</label>
+          <%=select("asset_information[zoning_id]",Lookup.find_all_by_type('Zoning'), @asset_information.zoning_id)%><br/>
+
+          <label for="rateable_value">Rateable Value:</label>
+          <input type="number" id="rateable_value" name="asset_information[rateable_value]" value="<%=@asset_information.rateable_value%>">
+        <%end%>
+
+        <label for="latitude">Latitude:</label>
+        <input type="number" id="latitude" name="asset_information[latitude]" value="<%=@asset_information.latitude%>">
+
+        <label for="longitude">Longitude:</label>
+        <input type="number" id="longitude" name="asset_information[longitude]" value="<%=@asset_information.longitude%>">
+
+        <input type="hidden" name="asset_information[facility_id]" value="<%=@asset_information.facility_id%>"/>
+        <input type="hidden" name="asset_information[type]" value="<%=@asset_information.type%>"/>
+
+        <input type="submit" name="commit" value="Save" data-inline="true"/>
+        <%unless @asset_information.new_record?%>
+          <a href="<%=url_for :controller=>:AssetInformation,:action=>:delete,:id=>@asset_information.object%>" data-role="button" data-inline="true">Delete</a>
+        <%end%>
+      </form>
+
+    </div>
+
+  </div>
+</div>
+

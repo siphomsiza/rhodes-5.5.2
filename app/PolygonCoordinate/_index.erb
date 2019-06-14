@@ -1,0 +1,10 @@
+<% polygon_coordinates.each_with_index do |c,index| %>
+  <tr>
+    <td style="padding: 2px 0 2px 0;border: 1px solid #ffffff;" align="center" width="20px;"><img src="http://google-maps-icons.googlecode.com/files/red<%='%02d' % c.point_no%>.png" size='16x16' /></td>
+    <td style="padding: 2px 0 2px 0;border: 1px solid #ffffff;" align="center"><%="%f" % c.latitude%></td>
+    <td style="padding: 2px 0 2px 0;border: 1px solid #ffffff;" align="center"><%="%f" % c.longitude%></td>
+    <td style="padding: 2px 0 2px 0;border: 1px solid #ffffff;" align="center"><a href="<%=url_for :controller=>:PolygonCoordinate,:action=>:delete,:id=>c.object,:query=>{:show_current=>@show_current}%>" data-role="button" data-icon="delete" style="margin: 2px!important" data-ajax="false" data-iconpos="notext">Delete</a></td>
+  </tr>
+<%end%>
+
+

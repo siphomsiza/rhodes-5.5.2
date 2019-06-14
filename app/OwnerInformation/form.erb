@@ -1,0 +1,55 @@
+<div data-role="page">
+  <link rel="stylesheet" type="text/css" href="/public/css/jquery.mobile.datebox-1.0.1.css" />
+  <script type="text/javascript" src="/public/jqmobile/jquery.mobile.datebox-1.0.1.js"></script>
+  <script type="text/javascript">
+    $.extend($.mobile.datebox.prototype.options, { 'dateFormat': 'YYYY-mm-dd',  'headerFormat': 'YYYY-mm-dd' });
+  </script>
+
+  <div data-role="header" data-theme="b">
+    <a href="<%=url_for :controller=>:OwnerInformation,:action=>:index,:query=>{:asset_information_id=>@owner_information.asset_information_id,:type=>''}%>" data-icon="back">Return</a>
+    <h3>Owner Information</h3>
+    <a href="<%=Rho::RhoConfig.start_path%>" data-ajax="false" data-icon="home" data-iconpos="notext" class="ui-btn-right jqm-home">Home</a>
+  </div>
+
+  <div data-role="content" >
+    <div data-role="collapsible" data-collapsed="false">
+      <h3><%=@owner_information.new_record? ? 'New Owner Information' : @owner_information.owner_status_text %></h3>
+      <form method="POST" action="<%=@owner_information.new_record? ? url_for(:controller=>:OwnerInformation,:action=>:create) : url_for(:controller=>:OwnerInformation,:action=>:update,:id=>@owner_information.object)%>" data-ajax="false">
+
+        <label for="owner_information[owner_status_id]" class="select">Owner Status:<%=show_error(@owner_information.errors,:owner_status_id)%></label>
+        <%=select("owner_information[owner_status_id]",Lookup.find_all_by_type('OwnerStatus'), @owner_information.owner_status_id)%><br/>
+
+        <label for="registration_date">Registration Date:<%=show_error(@owner_information.errors,:registration_date)%></label>
+        <input type="date" id="registration_date" name="owner_information[registration_date]" value="<%=@owner_information.registration_date%>" theme="b" data-role="datebox" data-options='{"mode": "slidebox"}'/>
+
+        <label for="date_of_sale">Date Of Sale:</label>
+        <input type="date" id="date_of_sale" name="owner_information[date_of_sale]" value="<%=@owner_information.date_of_sale%>" pickPageTheme="b" data-role="datebox" data-options='{"mode": "slidebox"}'/>
+
+        <label for="sale_price">Sale Price (<%=LocalizationSimplified::NumberHelper::CurrencyOptions[:unit]%>):</label>
+        <input type="number" id="sale_price" name="owner_information[sale_price]" value="<%=@owner_information.sale_price%>"/>
+
+        <label for="bond_amount">Bond Amount (<%=LocalizationSimplified::NumberHelper::CurrencyOptions[:unit]%>):</label>
+        <input type="number" id="bond_amount" name="owner_information[bond_amount]" value="<%=@owner_information.bond_amount%>"/>
+
+        <label for="owner_name">Owner Name:<%=show_error(@owner_information.errors,:owner_name)%></label>
+        <input type="text" id="owner_name" name="owner_information[owner_name]" value="<%=@owner_information.owner_name%>"/>
+
+        <label for="company_registration">Company Registration:<%=show_error(@owner_information.errors,:company_registration)%></label>
+        <input type="text" id="company_registration" name="owner_information[company_registration]" value="<%=@owner_information.company_registration%>"/>
+
+        <label for="address">Address:<%=show_error(@owner_information.errors,:address)%></label>
+        <input type="text" id="address" name="owner_information[address]" value="<%=@owner_information.address%>"/>
+
+        <input type="hidden" name="owner_information[asset_information_id]" value="<%=@owner_information.asset_information_id%>"/>
+
+        <input type="submit" name="commit" value="Save" data-inline="true"/>
+        <%unless @owner_information.new_record?%>
+          <a href="<%=url_for :controller=>:OwnerInformation,:action=>:delete,:id=>@owner_information.object%>" data-role="button" data-inline="true">Delete</a>
+        <%end%>
+      </form>
+
+    </div>
+
+  </div>
+</div>
+

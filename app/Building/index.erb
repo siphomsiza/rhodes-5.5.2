@@ -1,0 +1,38 @@
+<div data-role="page" class="type-index" id='building_index_page'>
+
+  <div data-role="header" data-theme="b">
+  <h1><%=@facility.code%> <%=@facility.name if System.get_property('screen_orientation') == 'landscape'%></h1>
+  <a href="<%=url_for :controller=>:Facility,:action=>:show,:id=>@facility.object%>" data-direction="reverse" data-icon="back">Facility</a>
+  <a href="<%=Rho::RhoConfig.start_path%>" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-right jqm-home">Home</a>
+  </div><!-- /header -->
+
+
+    <div data-role="content" >
+      <div class="content-primary">
+        <ul data-role="listview">
+          <li data-role="list-divider">Buildings<span class="ui-li-count"><%=@buildings.length%></span></li>
+             <% @buildings.each do |building| %>
+             <li>
+               <a href="<%=url_for :controller=>:Building, :action=>:show, :id=>building.object, :query=>{:facility_id=>@facility.object} %>" data-ajax="false">
+                                  <p><strong><%= building.building_no%> <%= building.name%></strong></p>
+                                  <p><%="#{building.building_type_text} (#{Component.find(:count,:conditions=>{:src_t=>'Building',:src_id=>building.object})} element(s))"%> <%= 'Photo' if MediaStore.present?('Building',building.object,'Photo')%></p>
+                   <%if building.changed?%>
+                     <p class="ui-li-aside"><img src="/public/images/alert2.png" width="16"/></p>
+                   <%end%>
+               </a>
+             </li>
+          <% end %>
+         </ul>
+       </div>
+   </div><!-- /ui-body wrapper -->
+
+  <div data-role="footer" data-theme="b">
+     <a href="<%=url_for :controller=>:Building,:action=>:new,:query=>{:facility_id=>@facility.object}%>" data-icon="add">Add</a>
+  </div><!-- /header -->
+  <script type="text/javascript">
+    //$('#building_index_page').live("swiperight", function(event){ $.mobile.changePage("<%= url_for :controller=>:Facility,:action=>:show,:id=>@facility.object%>",{ transition: "slide",reverse: true});  });
+    //$('#building_index_page').live("swipeleft", function(event){  $.mobile.changePage("<%= url_for :controller => :Component,:action => :index,:query => {:t=>'SiteworksConstruction',:src_t=>'Facility',:src_id=>@facility.object}%>",{ transition: "slide"}); });
+  </script>
+
+</div><!-- /page -->
+

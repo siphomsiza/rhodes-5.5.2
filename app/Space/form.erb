@@ -1,0 +1,62 @@
+<div data-role="page" id="space_form_page" >
+
+  <div data-role="header" data-theme="b">
+    <h1><%="#{SPACE_TITLES[@space.t]} Space"%></h1>
+    <a href="<%=url_for :controller=>:Space,:action=>:index,:query=>{:t=>@space.t,:src_t=>@space.src_t,:src_id=>@space.src_id}%>" data-icon="back">Return</a>
+    <a href="<%=Rho::RhoConfig.start_path%>" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-right jqm-home">Home</a>
+  </div><!-- /header -->
+
+  <div data-role="content" >
+    <%unless @space.new_record?%>
+      <div data-role="controlgroup" data-type="horizontal" class="localnav">
+        <a href="<%= url_for :controller => :Fixture,:action=>:index,:query=>{:space_id=>@space.object}%>" style="font-size: 11px;" data-role="button">Fixtures</a>
+      </div>
+    <%end%>
+
+    <div data-role="collapsible" data-theme="c" data-content-theme="d" data-collapsed="false">
+      <h3><%="##{@space.space_no} #{@space.new_record? ? 'New Space' : @space.space_type_text}" %></h3>
+      <form method="POST" action="<%= @space.new_record? ? url_for(:controller=>:Space,:action=>:create) : url_for(:controller=>:Space,:action=>:update,:id=>@space.object) %>" data-theme="b" data-ajax="false" >
+          <%if @space.new_record?%>
+            <label for="current_usage_id">Current Usage:<%=show_error(@space.errors,:current_usage_id) %></label>
+            <%=select("space[current_usage_id]",Lookup.find_all_by_type_and_parent('SpaceType','SpaceCategory',@space.t), @space.current_usage_id)%><br/>
+          <%end%>
+
+          <label for="previous_usage_id">Previous Usage:</label>
+          <%=select("space[previous_usage_id]",Lookup.find_all_by_type('SpaceType'), @space.previous_usage_id,{:include_blank=>true})%><br/>
+
+          <label for="unit_size">Unit Size (m<sup>2</sup>):<%=show_error(@space.errors,:unit_size) %></label>
+          <input type="number" id="unit_size" name="space[unit_size]" value="<%=@space.unit_size%>"/>
+
+          <label for="comments">Comments:</label>
+          <input type="text" name="space[comments]" id="comments" value="<%=@space.comments%>"/>
+
+          <input type="hidden" name="space[space_no]" value="<%= @space.space_no %>"/>
+          <input type="hidden" name="space[t]" value="<%= @space.t %>"/>
+          <input type="hidden" name="space[src_t]" value="<%= @space.src_t %>"/>
+          <input type="hidden" name="space[src_id]" value="<%= @space.src_id %>"/>
+          <input type="submit" value="Save" data-inline="true"/>
+          <% unless @space.new_record? %>
+            <a href="#delete_space_conf_page" data-icon="delete" data-role="button" data-inline="true" data-ajax="false">Delete</a>
+          <%end%>
+
+      </form>
+    </div>
+  </div>
+
+</div>
+
+<% unless @space.new_record? %>
+<div  data-role="page" id="delete_space_conf_page" >
+  <div nobackbtn="true" data-role="header" data-theme="b">
+  <h1>Delete space</h1>
+  </div><!-- /header -->
+
+   <div data-role="content" >
+       <h2>Are you sure? </h2>
+       <p> <%=@space.space_type_text%> </p>
+          <a href="#space_form_page" data-rel="back" data-role="button" data-inline="true">Cancel</a>
+          <a href="<%=url_for :controller=>:Space,:action=>:delete,:id=>@space.object%>" data-role="button" data-inline="true">Confirm</a>
+   </div><!-- /ui-body wrapper -->
+
+</div>
+<%end%>

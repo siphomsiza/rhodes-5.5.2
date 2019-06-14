@@ -1,0 +1,34 @@
+<div data-role="page">
+  <div data-role="header" data-theme="b">
+    <a href="<%=url_for :controller=>:EduClass,:action=>:index,:query=>{:facility_id=>@facility.object}%>" data-icon="back">Return</a>
+    <h3>Grade</h3>
+    <a href="<%=Rho::RhoConfig.start_path%>" data-ajax="false" data-icon="home" data-iconpos="notext" class="ui-btn-right jqm-home">Home</a>
+  </div>
+
+  <div data-role="content" >
+    <div data-role="collapsible" data-collapsed="false">
+      <h3><%=@edu_class.new_record? ? 'New grade' : @edu_class.grade_text %></h3>
+      <form method="POST" action="<%=@edu_class.new_record? ? url_for(:controller=>:EduClass,:action=>:create) : url_for(:controller=>:EduClass,:action=>:update,:id=>@edu_class.object)%>" data-ajax="false">
+        <%if @edu_class.new_record?%>
+          <label for="grade_id">Grade:<%=show_error(@edu_class.errors,:grade_id)%></label>
+          <%=select("edu_class[grade_id]",Lookup.find_all_by_type('Grade'), @edu_class.grade_id)%><br/>
+        <%end%>
+
+        <label for="class_count">Class count:<%=show_error(@edu_class.errors,:class_count)%></label>
+        <input type="number" id="class_count" name="edu_class[class_count]" value="<%=@edu_class.class_count %>">
+
+        <label for="learner_count">Learner count:<%=show_error(@edu_class.errors,:learner_count)%></label>
+        <input type="number" id="learner_count" name="edu_class[learner_count]" value="<%=@edu_class.learner_count %>">
+
+        <input type="hidden" name="edu_class[facility_id]" value="<%=@facility.object%>"/>
+        <input type="submit" name="commit" value="Save" data-inline="true"/>
+        <%unless @edu_class.new_record?%>
+          <a href="<%=url_for :controller=>:EduClass,:action=>:delete,:id=>@edu_class.object%>" data-role="button" data-inline="true">Delete</a>
+        <%end%>
+      </form>
+
+    </div>
+
+  </div>
+</div>
+

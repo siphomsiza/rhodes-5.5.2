@@ -1,0 +1,28 @@
+<div data-role="page" id="index_page">
+
+  <div data-role="header" data-theme="b">
+    <a href="<%=url_for :controller=>:Settings,:action=>:index%>" data-icon="back">Settings</a>
+    <h1>MediaStore Index</h1>
+    <a href="<%=Rho::RhoConfig.start_path%>" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-right jqm-home">Home</a>
+  </div><!-- /header -->
+
+  <div data-role="content">
+    <div data-role="content-primary">
+      <ul data-role="listview" >
+        <li data-role="list-divider">Images<span class="ui-li-count"><%=@media_stores.length%></span></li>
+        <%@media_stores.each do |m| %>
+          <li>
+            <a href="<%=url_for :controller=>m.src_t.to_sym,:id=>m.src_id,:action=>:show%>">
+              <p><strong><%= "#{m.src_t} #{m.t}"%></strong></p>
+              <p>Name: <%= m.data %></p>
+              <p><%= File.exists?(Rho::RhoApplication::get_blob_path(m.data)) ? "Size: #{File.size(Rho::RhoApplication::get_blob_path(m.data))}b" : 'Not found '%> </p>
+              <% if m.changed?%>
+              <p><strong style="color:red;">Sync Required</strong></p>
+              <%end%>
+            </a>
+          </li>
+        <%end%>
+      </ul>
+    </div>
+  </div>
+</div>

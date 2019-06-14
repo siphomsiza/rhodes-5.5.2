@@ -1,0 +1,39 @@
+<div data-role="page" class="type-index" id="show_page">
+
+  <div data-role="header" data-theme="b">
+  <h1><%=@component.element_text%></h1>
+  <a href="<%=url_for :controller=>:Component,:action=>:index,:query=>{:t=>@component.t,:src_t=>@component.src_t,:src_id=>@component.src_id}%>" data-icon="back">Back</a>
+  <a href="<%=Rho::RhoConfig.start_path%>" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-right jqm-home">Home</a>
+
+  </div><!-- /header -->
+
+  <div data-role="content" >
+    <ul data-role="listview" data-inset="true">
+      <li>
+        <a href="<%=url_for :controller=>:Component,:action=>:edit,:id=>@component.object%>"><img src="/public/images/element_icon.png" />Details</a>
+      </li>
+      <li>
+        <a href="<%= url_for :controller => :MediaStore, :action=> :show, :query=>{:name=>@component.element_text,:title=>'Photo',:src_id => @component.object,:src_t=>'Component',:t=>'Photo'} %>" data-ajax="false"><img src="/public/images/image_icon.png" />Element Image</a>
+      </li>
+    </ul>
+  </div><!-- /ui-body wrapper -->
+
+  <div data-role="footer" data-position="fixed"  data-theme="b">
+       <a href="#conf_page" data-icon="delete">Delete</a>
+   </div><!-- /header -->
+
+</div><!-- /page -->
+
+<div  data-role="page" id="conf_page" >
+  <div nobackbtn="true" data-role="header" data-theme="b">
+  <h1>Delete element</h1>
+  </div><!-- /header -->
+
+   <div data-role="content" id="confirm_content" >
+       <h2>Are you sure? </h2>
+       <p> <%=@component.element_text%> </p>
+          <a href="#show_page" data-rel="back" data-role="button" data-inline="true">Cancel</a>
+          <a href="<%=url_for :controller=>:Component,:action=>:delete,:id=>@component.object%>" data-role="button" data-inline="true">Confirm</a>
+   </div><!-- /ui-body wrapper -->
+
+</div>

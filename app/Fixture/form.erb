@@ -1,0 +1,36 @@
+<div data-role="page" id="fixture_form_page" >
+
+  <div data-role="header" data-theme="b">
+    <h1>Fixture</h1>
+    <a href="<%=url_for :controller=>:Fixture,:action=>:index,:query=>{:space_id=>@space.object}%>" data-icon="back">Return</a>
+    <a href="<%=Rho::RhoConfig.start_path%>" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-right jqm-home">Home</a>
+  </div>
+
+  <div data-role="content">
+    <div data-role="collapsible" data-theme="c" data-content-theme="d" data-collapsed="false" >
+      <h3><%= @fixture.new_record? ? 'New fixture' : @fixture.fixture_type_text%></h3>
+      <form method="POST" action="<%= @fixture.new_record? ? url_for(:controller=>:Fixture,:action=>:create) : url_for(:controller=>:Fixture,:action=>:update,:id=>@fixture.object) %>" data-theme="b" data-ajax="false" >
+        <%if @fixture.new_record? %>
+          <label for="fixture_type_id" class="select">Fixture Type:<%=show_error(@fixture.errors,:fixture_type_id)%></label>
+          <%=select("fixture[fixture_type_id]",Lookup.find_all_by_type('FixtureType'), @fixture.fixture_type_id)%><br/>
+        <%end%>
+
+        <input type="checkbox" name="fixture[present]" id="present" value="true" <%=checked 'true',@fixture.present %>/>
+        <label for="present">Present?</label>
+        <input value="" type=hidden name="fixture[present]">
+        <br/>
+        <label for="fixture[condition_id]" class="select">Condition:<%=show_error(@fixture.errors,:condition_id)%></label>
+        <%=select("fixture[condition_id]",Lookup.find_all_by_type('Condition'), @fixture.condition_id,{:include_blank=>true})%><br/>
+
+        <label for="comments">Comments:</label>
+        <input type="text" id="comments" name="fixture[comments]" value="<%= @fixture.comments %>">
+
+        <input type="hidden" name="fixture[space_id]" value="<%= @fixture.space_id %>"/>
+        <input type="submit" value="Save" data-inline="true"/>
+        <%unless @fixture.new_record?%>
+          <a href="<%=url_for :controller=>:Fixture,:action=>:delete,:id=>@fixture.object%>" data-role="button" data-inline="true">Delete</a>
+        <%end%>
+      </form>
+    </div>
+  </div>
+</div>

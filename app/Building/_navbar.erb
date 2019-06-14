@@ -1,0 +1,16 @@
+<div data-role="navbar">
+  <ul>
+    <li>
+      <a href="<%= url_for :controller => :Building, :action=> :show, :id => building.object %>" class="<%= tab_index==1 ? 'ui-btn-active' : 'ui-state-persist' %>">Details</a>
+    </li>
+    <li>
+      <a href="<%= url_for :controller => :Component,:action=>:index,:query=>{:t=>'BuildingConstruction',:src_t=>'Building',:src_id=>building.object}%>" class="<%= tab_index== 2 ? 'ui-btn-active' : 'ui-state-persist' %>">Elements</a>
+    </li>
+    <li>
+      <a href="<%= url_for :controller => :Component,:action=>:index,:query=>{:t=>'BuildingMechanicalEquipment',:src_t=>'Building',:src_id=>building.object}%>" class="<%= tab_index==3 ? 'ui-btn-active' : 'ui-state-persist' %>">Mech. Eq.</a>
+    </li>
+    <li>
+      <a href="<%= url_for :controller => :Component,:action=>:index,:query=>{:t=>'BuildingElectricalEquipment',:src_t=>'Building',:src_id=>building.object}%>" class="<%= tab_index==4 ? 'ui-btn-active' : 'ui-state-persist' %>">Elec. Eq.</a>
+    </li>
+  </ul>
+</div><!-- /navbar -->

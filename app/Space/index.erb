@@ -1,0 +1,30 @@
+<div data-role="page" >
+  <div data-role="header" data-theme="b">
+    <%if @params['src_t']=='Facility' %>
+      <h4><%=@src.code%></h4>
+    <%else%>
+      <h4><%=@src.building_no%> <%=@src.name%></h4>
+    <%end%>
+
+    <a href="<%=url_for :controller=>@params['src_t'].to_sym,:action=>:show,:id=>@params['src_id'],:query=>{'box'=>'3'}%>" data-icon="back"><%=@params['src_t']%></a>
+    <a href="<%=Rho::RhoConfig.start_path%>" data-ajax="false" data-icon="home" data-iconpos="notext" class="ui-btn-right jqm-home">Home</a>
+  </div>
+
+  <div data-role="content" >
+    <ul data-role="listview">
+      <li data-role="list-divider"><%="#{SPACE_TITLES[@params['t']]} Spaces"%><span class="ui-li-count"><%=@spaces.length%></span></li>
+      <%@spaces.each do |space|%>
+          <li>
+            <a href="<%=url_for :controller=>:Space,:action=>:edit,:id=>space.object%>">
+              <p><strong><%="#{space.space_no} #{space.space_type_text}"%> </strong></p>
+              <p><%= space.unit_size%> m<sup>2</sup></p>
+            </a>
+        </li>
+      <%end%>
+    </ul>
+  </div><!-- /ui-body wrapper -->
+
+  <div data-role="footer" data-theme="b">
+    <a href="<%=url_for :controller=>:Space,:action=>:new,:query=>{:t=>@params['t'],:src_t=>@params['src_t'],:src_id=>@params['src_id']}%>" data-inline="true" data-role="button">Add</a>
+  </div>
+</div>

@@ -1,0 +1,97 @@
+<div data-role="page" class="type-index" id="building_show_page">
+
+  <div data-role="header" data-theme="b">
+  <a href="<%=url_for :controller=>:Building,:action=>:index,:query=>{:facility_id=>@building.facility.object}%>" data-icon="back">Buildings</a>
+  <h1><%=@building.building_no%> <%=@building.name%></h1>
+  <a href="<%=Rho::RhoConfig.start_path%>" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-right jqm-home">Home</a>
+  </div><!-- /header -->
+
+  <div data-role="content" >
+    <div data-role="collapsible-set" data-theme="c" data-content-theme="d">
+      <%if @building.facility.asset_register_data_accessibly?%>
+        <div data-role="collapsible"  <%='data-collapsed="false"' unless @params['box']%>>
+          <h3>Asset Register</h3>
+          <div class="ui-grid-a">
+            <div class="ui-block-a">
+              <ul data-role="listview" data-inset="true" >
+                <li><a href="<%=url_for :controller=>:Building,:action=>:edit,:id=>@building.object,:query=>{:block=>'1',:facility_id=>@building.facility.object}%>">
+                  <img src="/public/images/identity_icon.png" />Identity and<br/>Usage</a></li>
+                <li><a href="<%=url_for :controller=>:Building,:action=>:edit,:id=>@building.object,:query=>{:block=>'2',:facility_id=>@building.facility.object}%>" >
+                  <img src="/public/images/maintenance_icon.png" />Dimensions and<br/>Maintenance</a></li>
+                <li><a href="<%=url_for :controller=>:Building,:action=>:edit,:id=>@building.object,:query=>{:block=>'3',:facility_id=>@building.facility.object}%>" >
+                  <img src="/public/images/access_icon.png" />Accessibility</a></li>
+              </ul>
+            </div>
+            <div class="ui-block-b">
+              <ul data-role="listview" data-inset="true">
+                <li><a href="<%=url_for :controller=>:Building,:action=> :edit,:id=>@building.object,:query=>{:block=>'10',:facility_id=>@building.facility.object}%>" data-ajax="false">
+                  <img src="/public/images/image_icon.png" />Building<br/>Image</a></li>
+                <li><a href="<%=url_for :controller=>:Building,:action=> :edit,:id=>@building.object,:query=>{:block=>'11',:facility_id=>@building.facility.object}%>" data-ajax="false">
+                  <img src="/public/images/plan_icon.png" />Building <br/>Layout Plan</a></li>
+                <li><a href="<%=url_for :controller=>:Building,:action=>:edit,:id=>@building.object,:query=>{:block=>'4',:facility_id=>@building.facility.object}%>" >
+                  <img src="/public/images/location_icon.png" />Building<br/>Location</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      <%end%>
+
+      <%if @building.facility.condition_assessment_data_accessibly?%>
+        <div data-role="collapsible" <%='data-collapsed="false"' if @params['box'] && (@params['box'] == '2')%>>
+          <h3>Condition Assessment</h3>
+          <ul data-role="listview" data-inset="true">
+            <li><a href="<%= url_for :controller => :Component,:action=>:index,:query=>{:t=>'BuildingConstruction',:src_t=>'Building',:src_id=>@building.object}%>">
+              <img src="/public/images/element_icon.png"/>
+              <h3>Building Elements</h3>
+              <p><span><%="#{Component.element_count('Building',@building.object,'BuildingConstruction')} element(s)"%></span></p>
+            </a></li>
+            <li><a href="<%= url_for :controller => :Component,:action=>:index,:query=>{:t=>'BuildingMechanicalEquipment',:src_t=>'Building',:src_id=>@building.object}%>">
+              <img src="/public/images/equipment_icon.png"/>
+              <h3>Mechanical Equipment</h3>
+              <p><span><%="#{Component.element_count('Building',@building.object,'BuildingMechanicalEquipment')} element(s)"%></span></p>
+            </a></li>
+            <li><a href="<%= url_for :controller => :Component,:action=>:index,:query=>{:t=>'BuildingElectricalEquipment',:src_t=>'Building',:src_id=>@building.object}%>">
+              <img src="/public/images/electric_icon.png" /><h3>Electrical Equipment</h3>
+              <p><span><%="#{Component.element_count('Building',@building.object,'BuildingElectricalEquipment')} element(s)"%></span></p>
+            </a></li>
+          </ul>
+        </div>
+      <%end%>
+
+      <%if @building.facility.education_data_accessibly?%>
+        <div data-role="collapsible" <%='data-collapsed="false"' if @params['box'] && (@params['box'] == '3')%>>
+          <h3>Educational Norms</h3>
+          <ul data-role="listview" data-inset="true">
+            <li><a href="<%= url_for :controller => :Space, :action=>:index,:query=>{:t=>'AdministrationSpace',:src_t=>'Building',:src_id => @building.object} %>">
+              <img src="/public/images/admin_space_icon.png" /><h3>Administrative Spaces</h3></a></li>
+            <li><a href="<%= url_for :controller => :Space, :action=>:index,:query=>{:t=>'CoreEducationalSpace',:src_t=>'Building',:src_id => @building.object} %>">
+              <img src="/public/images/core_edu_space_icon.png" /><h3>Core Education Spaces</h3></a></li>
+            <li><a href="<%= url_for :controller => :Space, :action=>:index,:query=>{:t=>'EducationalSupportingSpace',:src_t=>'Building',:src_id => @building.object} %>">
+              <img src="/public/images/sup_space_icon.png" /><h3>Educational Supporting Spaces</h3></a></li>
+          </ul>
+        </div>
+      <%end%>
+
+    </div>
+  </div><!-- /ui-body wrapper -->
+  <%if @building.can_modify%>
+  <div data-role="footer" data-position="fixed"  data-theme="b">
+     <a href="#conf_page" data-icon="delete">Delete Building</a>
+  </div><!-- /header -->
+  <%end%>
+</div><!-- /page -->
+
+<div  data-role="page" id="conf_page" >
+  <div nobackbtn="true" data-role="header" data-theme="b">
+  <h1>Delete Building</h1>
+  </div><!-- /header -->
+
+   <div data-role="content" id="confirm_content" >
+       <h2>Are you sure? </h2>
+       <p><%=@building.building_no%> <%=@building.name%> </p>
+          <a href="#show_page" data-rel="back" data-role="button" data-inline="true">Cancel</a>
+          <a href="<%=url_for :controller=>:Building,:id=>@building.object,:action=>:delete,:query=>{:facility_id=>@building.facility.object}%>" data-role="button" data-inline="true">Confirm</a>
+   </div><!-- /ui-body wrapper -->
+
+</div>
+

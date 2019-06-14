@@ -1,0 +1,45 @@
+<div data-role="collapsible" data-collapsed="false">
+  <h3>Facility Information</h3>
+  <form method="POST" action="<%= url_for :action => :update,:id=>@facility.object,:query=>{:block=>@params['block']} %>" data-theme="b" data-ajax="false" >
+    <div data-role="fieldcontain">
+      <label for="name">Name:</label>
+      <input type="text" name="facility[name]" id="name" value="<%=@facility.name%>"/>
+
+      <label for="client_code">Client Code:</label>
+      <input type="text" name="facility[client_code]" id="client_code" value="<%=@facility.client_code%>"/>
+
+      <label for="settlement_type_id">Settlement Type:</label>
+      <%=select("facility[settlement_type_id]",Lookup.find_all_by_type('SettlementType'), @facility.settlement_type_id)%><br/>
+
+      <div data-role="collapsible">
+        <h3>Address</h3>
+        <label for="street_address">Street Address:</label>
+        <input type="text" name="facility[street_address]" id="name" value="<%=@facility.street_address%>"/><br/>
+
+        <label for="suburb">Suburb:</label>
+        <input type="text" name="facility[suburb]" id="name" value="<%=@facility.suburb%>"/>
+
+        <label for="province_id">Province:</label>
+        <%=select("facility[province_id]",Lookup.find_all_by_type('Province'), @facility.province_id)%><br/>
+      </div>
+
+      <div data-role="collapsible">
+        <h3>Contact Details</h3>
+        <label for="responsible_name">Person Responsible:</label>
+        <input type="text" name="facility[responsible_name]" id="responsible_name" value="<%=@facility.responsible_name%>"/>
+
+        <label for="responsible_designation">Designation:</label>
+        <input type="text" name="facility[responsible_designation]" id="responsible_designation" value="<%=@facility.responsible_designation%>"/>
+
+        <label for="responsible_phone">Phone:</label>
+        <input type="text" name="facility[responsible_phone]" id="responsible_phone" value="<%=@facility.responsible_phone%>"/>
+
+        <label for="responsible_name">E-mail::</label>
+        <input type="email" name="facility[responsible_email]" id="responsible_email" value="<%=@facility.responsible_email%>"/>
+      </div>
+      <input type="submit" value="Save" data-inline="true"/>
+    </div>
+
+  </form>
+
+</div>

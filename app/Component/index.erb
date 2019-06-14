@@ -1,0 +1,54 @@
+<div data-role="page" class="type-index" id="<%=@params['t']%>_index_page">
+
+  <div data-role="header" data-theme="b">
+    <%if @params['src_t']=='Facility' %>
+      <h4><%=@src.code%></h4>
+    <%else%>
+      <h4><%=@src.building_no%> <%=@src.name%></h4>
+    <%end%>
+  <a href="<%=url_for :controller=>@params['src_t'].to_sym,:action=>:show,:id=>@params['src_id'],:query=>{'box'=>'2'}%>" data-ajax="false" data-icon="back"><%=@params['src_t']%></a>
+  <a href="<%=Rho::RhoConfig.start_path%>" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-right jqm-home">Home</a>
+
+  </div><!-- /header -->
+
+    <div data-role="content" >
+      <div class="content-primary">
+        <ul data-role="listview">
+          <li data-role="list-divider"><%="#{ELEMENT_TITLES[@params['t']]} Elements"%><span class="ui-li-count"><%=@components.length%></span></li>
+            <% @components.each do |component| %>
+              <li>
+                <a href="<%=url_for :controller=>:Component, :action=>:edit, :id=>component.object %>" data-ajax="false">
+                  <p><strong><%= "#{component.item_no} #{component.element_text}"%></strong></p>
+                  <p>
+                                    <strong style="color:#6faf6f;"><%="#{component.condition_rating_level_1.to_i}%" %></strong>
+                                    <strong style="color:#6f6faf;"><%="#{component.condition_rating_level_2.to_i}%" %></strong>
+                                    <strong style="color:#b9a860;"><%="#{component.condition_rating_level_3.to_i}%" %></strong>
+                                    <strong style="color:#af6faf;"><%="#{component.condition_rating_level_4.to_i}%" %></strong>
+                                    <strong style="color:#af6f6f;"><%="#{component.condition_rating_level_5.to_i}%" %></strong>
+                                    <% if MediaStore.present?('Component',component.object,'Photo') %>
+                                      <strong>Photo</strong>
+                                    <%else%>
+                                      <%unless (component.condition_rating_level_1.to_i+component.condition_rating_level_2.to_i) == 100 %>
+                                        <strong style="color:red;">Photo Required</strong>
+                                      <%end%>
+                                    <%end%>
+                  </p>
+                  <%if component.changed?%>
+                    <p class="ui-li-aside"><img src="/public/images/alert2.png" width="16"/></p>
+                  <%end%>
+                </a>
+              </li>
+            <%end%>
+         </ul>
+       </div>
+   </div><!-- /ui-body wrapper -->
+
+  <div data-role="footer" data-theme="b">
+     <a href="<%=url_for :controller=>:Component,:action=>:new,:query=>{:t=>@params['t'],:src_t=>@params['src_t'],:src_id=>@params['src_id']}%>" data-icon="add">Add</a>
+  </div><!-- /header -->
+
+  <script type="text/javascript">
+    //$('#<%=@params['t']%>_index_page').live("swiperight", function(event){ $.mobile.changePage("<%=@prev_url%>",{ transition: "slide",reverse: true}); });
+    //$('#<%=@params['t']%>_index_page').live("swipeleft", function(event){ $.mobile.changePage("<%=@next_url%>",{ transition: "slide"}); });
+  </script>
+</div><!-- /page -->

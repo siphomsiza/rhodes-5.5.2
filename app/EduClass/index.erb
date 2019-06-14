@@ -1,0 +1,25 @@
+<div data-role="page" >
+  <div data-role="header" data-theme="b">
+    <a href="<%=url_for :controller=>:Facility,:action=>:show,:id=>@facility.object,:query=>{'box'=>'3'}%>" data-icon="back">Facility</a>
+    <h3><%=@facility.code%></h3>
+    <a href="<%=Rho::RhoConfig.start_path%>" data-ajax="false" data-icon="home" data-iconpos="notext" class="ui-btn-right jqm-home">Home</a>
+  </div>
+
+  <div data-role="content" >
+    <ul data-role="listview">
+      <li data-role="list-divider">Grades<span class="ui-li-count"><%=@edu_classes.length%></span></li>
+      <%@edu_classes.each do |edu_class|%>
+          <li>
+            <a href="<%=url_for :controller=>:EduClass,:action=>:edit,:id=>edu_class.object%>">
+              <h3><%=edu_class.grade_text%></h3>
+              <p>Class count: <%= edu_class.class_count%> Learner Count: <%= edu_class.learner_count%> </p>
+            </a>
+        </li>
+      <%end%>
+    </ul>
+  </div><!-- /ui-body wrapper -->
+
+  <div data-role="footer" data-theme="b">
+    <a href="<%=url_for :controller=>:EduClass,:action=>:new,:query=>{:facility_id=>@facility.object}%>" data-inline="true" data-role="button">Add</a>
+  </div>
+</div>

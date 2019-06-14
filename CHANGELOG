@@ -1,0 +1,23 @@
+## 1.1.0 (feature_modules)
+* add FacilityStatus functional
+* add EducationNorm functional
+* add AssetRegister functional
+* separated MaterialType classes functional
+* auto populate elements based om building type
+* add building layout plan
+* delete Siteworks Dimension form; move Siteworks dimension fields to Siteworks form
+* combine DeedsOffice and MunicipalrollRegister to AssetInformation model
+* add audit trail functional
+* add 'Simple Asset Register' feature
+
+## 1.0.3 (feature_offline_client)
+* add facility Contacts form block
+
+## 1.02
+* fix checkin/out and signoff functional
+* add backup_folder param to config; create backup folder if not exists
+* hide Google maps if no network
+
+## 1.01
+* add backup/restore database file to extental SD card
+* enable send log to rhologs.heroku.com

@@ -1,0 +1,58 @@
+<div data-role="page" class="type-index" id="polygon_coordinates_page">
+
+  <div data-role="header" data-theme="b">
+    <a href="<%=url_for :controller=>:Facility,:action=>:show,:id=>@facility.object%>" data-ajax="false" data-icon="back"><%=@facility.code%></a>
+    <h3>Boundary Polygon</h3>
+    <a href="<%=Rho::RhoConfig.start_path%>" data-ajax="false" data-icon="home" data-iconpos="notext" class="ui-btn-right jqm-home">Home</a>
+  </div><!-- /header -->
+
+  <div data-role="content" >
+    <div class="content-primary">
+      <div data-role="collapsible" <%= 'data-collapsed="false"' if @boundary_polygon.new_record? %> >
+        <h1><%=@boundary_polygon.new_record? ? 'New polygon' : @boundary_polygon.polygon_type_text%> </h1>
+          <form method="POST" action="<%= @boundary_polygon.new_record? ? url_for(:controller=>:BoundaryPolygon,:action=>:create) : url_for(:controller=>:BoundaryPolygon,:action=>:update,:id=>@boundary_polygon.object) %>" data-theme="b" data-ajax="false" >
+            <%if @boundary_polygon.new_record? %>
+              <label for="polygon_type_id">Polygon type:<%=show_error(@boundary_polygon.errors,:polygon_type_id)%></label>
+              <%= select("boundary_polygon[polygon_type_id]",Lookup.find_all_by_type('PolygonType'), @boundary_polygon.polygon_type_id) %><br/>
+            <%end%>
+            <label for="remarks">Remarks</label>
+            <input type="text" name="boundary_polygon[remarks]" id="remarks" value="<%=@boundary_polygon.remarks%>"/>
+            <input type="hidden" name="boundary_polygon[facility_id]" value="<%= @facility.object %>"/>
+            <input type="submit" value="Save" data-inline="true"/>
+            <%unless @boundary_polygon.new_record? %>
+              <a href="<%=url_for :controller=>:BoundaryPolygon,:action=>:delete,:id=>@boundary_polygon.object%>" data-ajax="false" data-role="button" data-inline="true">Delete</a>
+            <%end%>
+          </form>
+       </div>
+
+      <%unless @boundary_polygon.new_record?%>
+        <div data-role="collapsible" data-collapsed="false">
+          <h1>Coordinates</h1>
+          <table width="100%">
+          <%= render :partial=>'PolygonCoordinate/index',:locals=>{:polygon_coordinates=>@boundary_polygon.polygon_coordinates}%>
+          <% if @new_coordinate %>
+            <%= render :partial=>'PolygonCoordinate/form',:locals=>{:polygon_coordinate=>@new_coordinate}%>
+          <%else%>
+            <tr>
+              <td style="padding: 2px 0 2px 0;border: 1px solid #ffffff;" align="center" colspan="4"><strong style="color: red;">The location system is not up or not acquired position.</strong></td>
+            </tr>
+          <%end%>
+          </table>
+        </div>
+      <%end%>
+    </div>
+    <%unless @boundary_polygon.polygon_coordinates.empty?%>
+        <div align="center" width="100%">
+          <img src="https://maps.googleapis.com/maps/api/staticmap?center=<%=@boundary_polygon.polygon_coordinates[0].latitude.to_s%>,<%=@boundary_polygon.polygon_coordinates[0].longitude.to_s%>&size=256x256&maptype=mobile&markers=<%=markers_string(@boundary_polygon.polygon_coordinates,GeoLocation.known_position? && @show_current ? [GeoLocation.latitude,GeoLocation.longitude] : nil )%>&key=AIzaSyCajzr-Ym1gRM90bRaovLLDp445_f4Avvs"/>
+        </div>
+    <%end%>
+  </div>
+
+  <div data-role="footer" data-position="fixed"  data-theme="b">
+    <%if System.get_property('has_network') && !@boundary_polygon.polygon_coordinates.empty?%>
+    <a href="<%=url_for :controller=>:BoundaryPolygon,:action=>:showmap,:id=>@boundary_polygon.object%>" data-role="button" >Map</a>
+    <%end%>
+    <a href="<%=url_for :controller=>:BoundaryPolygon,:action=>:edit,:id=>@boundary_polygon.object %>" data-ajax="false" data-role="button">Refresh</a>
+  </div><!-- /header -->
+
+</div>

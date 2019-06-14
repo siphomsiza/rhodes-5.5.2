@@ -1,0 +1,35 @@
+<div data-role="collapsible" <%='data-collapsed="false"' unless @params['box'] %>>
+  <h3>Asset Register</h3>
+  <div class="ui-grid-a">
+    <div class="ui-block-a">
+      <ul data-role="listview" data-inset="true" >
+        <li><a href="<%= url_for :controller => :Facility, :action=>:edit, :id => @facility.object,:query=>{:block=>'3'}%>" >
+          <img src="/public/images/contact_details_icon.png" />Facility<br/>Information</a></li>
+        <li><a href="<%= url_for :controller => :AssetInformation, :action=>:index, :query=>{:facility_id => @facility.object,:type=>'DeedsOffice'}%>" >
+          <img src="/public/images/deeds_office_icon.png" />Deeds<br/>Office</a></li>
+        <li><a href="<%= url_for :controller => :AssetInformation, :action=>:index, :query=>{:facility_id => @facility.object,:type=>'MunicipalRollRegister'}%>" >
+          <img src="/public/images/municipal_roll_icon.png" />Municipal<br/>Roll</a></li>
+      </ul>
+    </div>
+    <div class="ui-block-b">
+      <ul data-role="listview" data-inset="true">
+        <li><a href="<%= url_for :controller => :Facility, :action=>:edit, :id => @facility.object,:query=>{:block=>'10'}%>" >
+          <img src="/public/images/image_icon.png" /><h3>Site<br/>Image</h3></a></li>
+        <li><a href="<%= url_for :controller => :Facility, :action=>:edit, :id => @facility.object,:query=>{:block=>'11'} %>" >
+          <img src="/public/images/plan_icon.png" /><h3>Site<br/>Layout Plan</h3></a></li>
+        <li><a href="<%= url_for :controller => :Facility, :action=> :edit, :id => @facility.object,:query=>{:block=>'2'} %>" >
+          <img src="/public/images/location_icon.png" /><h3>Site<br/>Location</h3></a></li>
+        <li><a href="<%= url_for :controller => :BoundaryPolygon,:action=>:index,:query=>{:facility_id=>@facility.object} %>">
+          <img src="/public/images/polygon_icon.png" /><h3>Boundary<br/>Polygons</h3></a></li>
+      </ul>
+    </div>
+  </div>
+  <ul data-role="listview" data-inset="true" >
+    <li><a href="<%= url_for :controller => :Building, :action=>:index, :query=>{:facility_id => @facility.object} %>" >
+      <img src="/public/images/building_icon.png" />
+      <h3>Buildings</h3>
+      <p><strong><%= "#{Building.find(:count,:conditions=>{:facility_id=>@facility.object})} building(s)"%></strong></p>
+    </a>
+    </li>
+  </ul>
+</div>

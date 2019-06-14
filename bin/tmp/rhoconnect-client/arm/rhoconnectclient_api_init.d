@@ -1,0 +1,1 @@
+  /home/sipho/.rvm/gems/ruby-2.2.5/gems/rhoconnect-client-5.5.2/lib/../ext/rhoconnect-client/ext/shared/generated/rhoconnectclient_api_init.cpp   /home/sipho/.rvm/gems/ruby-2.2.5/gems/rhodes-5.5.2/platform/shared/common/app_build_capabilities.h

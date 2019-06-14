@@ -1,0 +1,30 @@
+
+<tr>
+  <td style="padding: 2px 0 2px 0;border: 1px solid #ffffff;" align="center">Cur<br/>&plusmn;<%=GeoLocation.accuracy%>
+                                                                                        <!--<br/><input type="checkbox"
+                                                                                            id="show_current_ch"
+                                                                                            name="show_current"
+                                                                                            value="true" <%='checked' if @show_current%>
+                                                                                            data-role="none"
+                                                                                            onclick="do_refresh();"/> !-->
+  </td>
+  <td style="padding: 2px 0 2px 0;border: 1px solid #ffffff;" align="center" ><%="%f" % GeoLocation.latitude%></td>
+  <td style="padding: 2px 0 2px 0;border: 1px solid #ffffff;" align="center" ><%="%f" % GeoLocation.longitude%></td>
+  <td style="padding: 2px 0 2px 0;border: 1px solid #ffffff;" align="center">
+    <form  method="POST" action="<%= url_for(:controller=>:PolygonCoordinate,:action=>:create) %>" data-theme="b" data-ajax="false" >
+      <input type="hidden" name="polygon_coordinate[boundary_polygon_id]" value="<%=polygon_coordinate.boundary_polygon_id%>" />
+      <input type="hidden" name="polygon_coordinate[point_no]" value="<%=polygon_coordinate.point_no%>" />
+      <input type="hidden" id="latitude" name="polygon_coordinate[latitude]" value="<%=GeoLocation.latitude%>"/>
+      <input type="hidden" id="longitude" name="polygon_coordinate[longitude]" value="<%=GeoLocation.longitude%>">
+      <input type="hidden" id="show_current" name="show_current" value="<%=@show_current.to_s%>">
+      <input type="submit" value="Add" data-icon="add" data-iconpos="notext" data-inline="true"/>
+    </form>
+  </td>
+</tr>
+
+
+<script type="text/javascript">
+//  $(document).ready(function(event){ setTimeout('do_refresh()', 15000); });
+//  function do_refresh()
+//   {window.location.href="<%=url_for :controller=>:BoundaryPolygon,:action=>:edit,:id=>polygon_coordinate.boundary_polygon_id%>" + '?show_current='+$("#show_current_ch").is(":checked");}
+</script>

@@ -1,0 +1,9 @@
+
+.ui-li .ui-btn-inner a.ui-link-inherit, .ui-li-static.ui-li { padding: .4em 15px .0em 15px; display: block; }
+
+.ui-li-thumb, .ui-li-icon { left: 1px;  max-height: 64px;   max-width: 64px;   position: absolute;  top: 3px;}
+
+.ui-li-has-thumb .ui-btn-inner a.ui-link-inherit, .ui-li-static.ui-li-has-thumb  { min-height: 64px; padding-left: 65px; }
+
+.ui-li-aside { float: right; width: 30%; text-align: right; padding: .3em 20px 0px 20px; }
+@media all and (min-width: 480px){ .ui-li-aside { width: 10%; padding: .3em 20px;} }

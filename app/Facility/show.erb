@@ -1,0 +1,92 @@
+<div data-role="page" id="facility_show_page">
+
+  <div data-role="header" data-theme="b">
+  <h4><%=@facility.code%> <%=@facility.name if System.get_property('screen_orientation') == 'landscape'%></h4>
+  <a href="<%=url_for :controller=>:Facility,:action=>:index%>" data-direction="reverse" data-icon="back">Facilities</a>
+  <a href="<%=Rho::RhoConfig.start_path%>" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-right jqm-home">Home</a>
+  </div><!-- /header -->
+
+  <div data-role="content" >
+    <%unless @facility.attribute_changed?('offline_client_id')%>
+
+      <%if @facility.checkout? || (Rho::RhoConfig.facility_debug.to_i == 1)%>
+        <div data-role="collapsible-set" data-theme="c" data-content-theme="d">
+          <%=render :partial => 'asset_register' if @facility.asset_register_data_accessibly?%>
+          <%=render :partial => 'condition_assessment' if @facility.condition_assessment_data_accessibly?%>
+          <%=render :partial => 'education' if @facility.education_data_accessibly?%>
+        </div>
+        <ul data-role="listview" data-inset="true">
+          <%if Rho::RhoConnectClient.isLoggedIn %>
+            <li><a href="#signoff_confirm" data-ajax="false" >
+              <img src="/public/images/sign_icon.png" /><h3>Sign Off</h3>
+              <p><strong style="white-space:pre-wrap;align:left;">When a facility’s assessment is completed, click “Sign Off”</strong></p></a></li>
+          <%end%>
+          <li><a href="#checkin_confirm" data-ajax="false" >
+            <img src="/public/images/checkin_icon.png" /><h3>Check In</h3><p>Allowing for online capture</p></a></li>
+        </ul>
+
+      <%else%>
+          <ul data-role="listview" data-inset="true">
+            <li><a href="#checkout_confirm" data-ajax="false" >
+              <img src="/public/images/checkout_icon.png" />
+              <h3>Check Out</h3>
+              <p><strong style="white-space:pre-wrap;align:left;">Any existing data for the facility will be downloaded onto device from server</strong></p></a>
+            </li>
+          </ul>
+      <%end%>
+
+    <%else%>
+        <ul data-role="listview" data-inset="true">
+          <li>
+            <h3>Sync required</h3>
+          </li>
+        </ul>
+    <%end%>
+  </div><!-- /ui-body wrapper -->
+
+</div><!-- /page -->
+
+<div data-role="page" id="signoff_confirm" >
+
+  <div data-role="header" data-theme="b">
+  <h4>Sign Off</h4>
+  </div><!-- /header -->
+
+  <div data-role="content" id="confirm_content" >
+      <h2>Are you sure? </h2>
+      <p>Facility '<%=@facility.name%>'</p>
+         <a href="#show_page" data-rel="back" data-role="button"  data-direction="reverse" data-inline="true">Cancel</a>
+         <a href="<%=url_for :controller=>:Facility,:action=>:signoff,:id=>@facility.object%>" data-ajax="false"  data-role="button" data-inline="true">Confirm</a>
+  </div><!-- /ui-body wrapper -->
+
+</div><!-- /page -->
+
+<div data-role="page" id="checkin_confirm" >
+
+  <div data-role="header" data-theme="b">
+  <h4>Check In</h4>
+  </div><!-- /header -->
+
+  <div data-role="content" id="lock_content" >
+      <h2>Are you sure? </h2>
+      <p>Facility '<%=@facility.name%>'</p>
+         <a href="#show_page" data-rel="back" data-role="button"  data-direction="reverse" data-inline="true">Cancel</a>
+         <a href="<%=url_for :controller=>:Facility,:action=>:checkin,:id=>@facility.object%>" data-ajax="false" data-role="button" data-inline="true">Confirm</a>
+  </div><!-- /ui-body wrapper -->
+
+ </div><!-- /page -->
+
+<div data-role="page" id="checkout_confirm" >
+
+  <div data-role="header" data-theme="b">
+  <h4>Check Out</h4>
+  </div><!-- /header -->
+
+  <div data-role="content" id="checkout_content" >
+      <h2>Check Out Facility for Offline Capture?</h2>
+      <p>Facility '<%=@facility.name%>'</p>
+         <a href="#show_page" data-rel="back" data-role="button"  data-direction="reverse" data-inline="true">Cancel</a>
+         <a href="<%=url_for :controller=>:Facility,:action=>:checkout,:id=>@facility.object%>" data-ajax="false"  data-role="button" data-inline="true">Confirm</a>
+  </div><!-- /ui-body wrapper -->
+
+ </div><!-- /page -->

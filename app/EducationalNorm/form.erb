@@ -1,0 +1,76 @@
+<div data-role="page" >
+  <div data-role="header" data-theme="b">
+    <a href="<%=url_for :controller=>:Facility,:action=>:show,:id=>@facility.object,:query=>{'box'=>'3'}%>" data-icon="back">Return</a>
+    <h3><%=@facility.code%></h3>
+    <a href="<%=Rho::RhoConfig.start_path%>" data-ajax="false" data-icon="home" data-iconpos="notext" class="ui-btn-right jqm-home">Home</a>
+  </div>
+
+  <div data-role="content" >
+    <form method="POST" action="<%=@educational_norm.new_record? ? url_for(:controller=>:EducationalNorm,:action=>:create) : url_for(:controller=>:EducationalNorm,:action=>:update,:id=>@educational_norm.object) %>" data-theme="b" data-ajax="false" >
+      <div data-role="collapsible-set" data-theme="c" data-content-theme="d">
+        <div data-role="collapsible" data-collapsed="false">
+          <h3>Educational Norms</h3>
+        <label for="site_size">Site Size(m<sup>2</sup>):</label>
+        <input type="number" id="site_size" name="educational_norm[site_size]" value="<%= @educational_norm.site_size %>">
+
+        <label for="site_location_id">Site Location:</label>
+        <%=select("educational_norm[site_location_id]",Lookup.find_all_by_type('SiteLocation'), @educational_norm.site_location_id)%><br/>
+
+        <label for="site_comments">Comments:</label>
+        <input type="text" id="site_comments" name="educational_norm[site_comments]" value="<%= @educational_norm.site_comments %>">
+
+        <label for="school_prototype_id">School Prototype:</label>
+        <%=select("educational_norm[school_prototype_id]",Lookup.find_all_by_type('SchoolPrototype'), @educational_norm.school_prototype_id)%><br/>
+
+        <label for="school_size">Number of Learners:</label>
+        <input type="number" id="school_size" name="educational_norm[school_size]" value="<%= @educational_norm.school_size %>">
+
+        <label for="number_of_educators">Number of Educators:</label>
+        <input type="number" id="number_of_educators" name="educational_norm[number_of_educators]" value="<%= @educational_norm.number_of_educators %>">
+      </div>
+      <div data-role="collapsible">
+        <h3>Planning Norms Compliance</h3>
+        <label for="identification_compliance_id">Identification Compliance:</label>
+        <%=select("educational_norm[identification_compliance_id]",@compliances, @educational_norm.identification_compliance_id)%><br/>
+
+        <label for="identification_comments">Identification Comments:</label>
+        <input type="text" id="identification_comments" name="educational_norm[identification_comments]" value="<%= @educational_norm.identification_comments %>">
+
+        <label for="sanitation_compliance_id">Sanitation Compliance:</label>
+        <%=select("educational_norm[sanitation_compliance_id]",@compliances, @educational_norm.sanitation_compliance_id)%><br/>
+
+        <label for="sanitation_comments">Sanitation Comments:</label>
+        <input type="text" id="sanitation_comments" name="educational_norm[sanitation_comments]" value="<%= @educational_norm.sanitation_comments %>">
+
+        <label for="security_compliance_id">Security Compliance:</label>
+        <%=select("educational_norm[security_compliance_id]",@compliances, @educational_norm.security_compliance_id)%><br/>
+
+        <label for="security_comments">Security Comments:</label>
+        <input type="text" id="security_comments" name="educational_norm[security_comments]" value="<%= @educational_norm.security_comments %>">
+
+        <label for="water_supply_compliance_id">Water Supply Compliance:</label>
+        <%=select("educational_norm[water_supply_compliance_id]",@compliances, @educational_norm.water_supply_compliance_id)%><br/>
+
+        <label for="water_supply_comments">Water Supply Comments:</label>
+        <input type="text" id="water_supply_comments" name="educational_norm[water_supply_comments]" value="<%= @educational_norm.water_supply_comments %>">
+
+        <label for="connectivity_compliance_id">Connectivity Compliance:</label>
+        <%=select("educational_norm[connectivity_compliance_id]",@compliances, @educational_norm.connectivity_compliance_id)%><br/>
+
+        <label for="connectivity_comments">Connectivity Comments:</label>
+        <input type="text" id="connectivity_comments" name="educational_norm[connectivity_comments]" value="<%= @educational_norm.connectivity_comments %>">
+
+        <label for="electricity_supply_compliance_id">Electricity Supply Compliance:</label>
+        <%=select("educational_supply_norm[electricity_supply_compliance_id]",@compliances, @educational_norm.electricity_supply_compliance_id)%><br/>
+
+        <label for="electricity_supply_comments">Electricity Supply Comments:</label>
+        <input type="text" id="electricity_supply_comments" name="educational_norm[electricity_supply_comments]" value="<%= @educational_norm.electricity_supply_comments %>">
+      </div>
+      </div>
+
+      <input type="hidden" name="educational_norm[facility_id]" value="<%= @educational_norm.facility_id %>"/>
+      <input type="submit" value="Save" data-inline="true"/>
+    </form>
+  </div>
+
+</div>

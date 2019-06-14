@@ -1,0 +1,63 @@
+<div data-role="page" id="changed_values_index_page">
+  <div data-role="header" data-theme="b">
+    <a href="<%=url_for :controller=>:ChangedValues,:action=>:index%>" data-icon="back">Cancel</a>
+    <h1>Edit</h1>
+    <a href="<%=Rho::RhoConfig.start_path%>" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-right jqm-home">Home</a>
+  </div><!-- /header -->
+
+  <div data-role="content">
+     <form method="POST" action="<%= url_for :action => :update,:query=>{:source_id=>@changed_value['source_id'],
+                                                                        :object=>@changed_value['object'],
+                                                                        :attrib=>@changed_value['attrib'],
+                                                                        :update_type=>@changed_value['update_type']} %>" data-theme="b" data-ajax="false" >
+       <label for="source_id">Source:</label>
+       <input type="number" id="source_id" name="changed_value[source_id]" value="<%=@changed_value['source_id']%>"/>
+
+       <label for="object">Object:</label>
+       <input type="text" id="object" name="changed_value[object]" value="<%=@changed_value['object']%>"/>
+
+       <label for="attrib">Attrib:</label>
+       <input type="text" id="attrib" name="changed_value[attrib]" value="<%=@changed_value['attrib']%>"/>
+
+       <label for="value">Value:</label>
+       <input type="text" id="value" name="changed_value[value]" value="<%=@changed_value['value']%>"/>
+
+       <label for="attrib_type">Attrib Type:</label>
+       <input type="text" id="attrib_type" name="changed_value[attrib_type]" value="<%=@changed_value['attrib_type']%>"/>
+
+       <label for="update_type">Update Type:</label>
+       <select id="update_type" name="changed_value[update_type]">
+         <option value="create" <%=selected('create',@changed_value['update_type'])%>>Create</option>
+         <option value="delete" <%=selected('delete',@changed_value['update_type'])%>>Delete</option>
+         <option value="update" <%=selected('update',@changed_value['update_type'])%>>Update</option>
+       </select>
+
+       <label for="sent">Sent:</label>
+       <input type="number" id="sent" name="changed_value[sent]" value="<%=@changed_value['sent']%>"/>
+
+       <input type="submit" value="Save" data-inline="true">
+       <a href="<%=url_for :action=>:delete,:query=>{:source_id=>@changed_value['source_id'],
+                                                                        :object=>@changed_value['object'],
+                                                                        :attrib=>@changed_value['attrib'],
+                                                                        :update_type=>@changed_value['update_type']}%>" data-icon="delete" data-role="button" data-inline="true">Delete</a>
+
+    </form>
+  </div><!-- /ui-body wrapper -->
+</div><!-- /page -->
+
+<div data-role="page" id="delete_ch_conf_page" >
+  <div nobackbtn="true" data-role="header" data-theme="b">
+    <h1>Delete</h1>
+  </div><!-- /header -->
+
+  <div data-role="content">
+       <h2>Are you sure? </h2>
+       <p> <%="#{@changed_value['update_type']} #{@changed_value['attrib']} #{@changed_value['value']}"%> </p>
+          <a href="#changed_values_index_page" data-rel="back" data-role="button" data-inline="true">Cancel</a>
+          <a href="<%=url_for :controller=>:ChangedValues,:action=>:delete,:query=>{:source_id=>@changed_value['source_id'],
+                                                                        :object=>@changed_value['object'],
+                                                                        :attrib=>@changed_value['attrib'],
+                                                                        :update_type=>@changed_value['update_type']}%>" data-role="button" data-inline="true">Confirm</a>
+  </div><!-- /ui-body wrapper -->
+
+</div>

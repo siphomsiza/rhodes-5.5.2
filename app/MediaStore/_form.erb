@@ -1,0 +1,23 @@
+<div data-role="collapsible" data-collapsed="<%=collapsed.to_s%>">
+  <h3><%=source_params[:title]%></h3>
+  <div align="center">
+  <%unless @media_store.nil? %>
+    <span style="font-size: 12px;"><%=@media_store.data%></span></br>
+    <img src="<%=Rho::RhoApplication::get_blob_path(@media_store.data)%>" width='350px'/> <br/>
+    <span style="font-size: 12px;"><%="Created at #{@media_store.created_at.to_s}"%></span>
+  <%else%>
+    <span>No photo</span>
+  <%end%>
+  </div>
+  <%if @media_store.nil? || @media_store.can_modify%>
+    <a href="<%= url_for :controller=>:MediaStore,:action => :choose_photo, :query=>{:src_t=>source_params[:src_t],:src_id=>source_params[:src_id],:t=>source_params[:t],:block=>source_params[:block]} %>" data-role="button" data-inline="true">Choose</a>
+    <%if System::get_property('has_camera') %>
+      <a href="<%= url_for :controller=>:MediaStore,:action => :take_photo, :query=>{:src_t=>source_params[:src_t],:src_id=>source_params[:src_id],:t=>source_params[:t],:block=>source_params[:block]} %>" data-role="button" data-inline="true" data-icon="add">Take</a>
+    <%end%>
+    <%unless @media_store.nil? %>
+      <a href="<%= url_for :controller=>:MediaStore,:action => :delete,:id=>@media_store.object, :query=>{:block=>source_params[:block]} %>" data-role="button" data-inline="true" data-icon="delete">Clear</a>
+    <%end%>
+  <%else%>
+    <input type="button" value="sync Required" disabled="true">
+  <%end%>
+</div>

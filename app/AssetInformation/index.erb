@@ -1,0 +1,29 @@
+<div data-role="page" class="type-index" id='asset_information_index_page'>
+
+  <div data-role="header" data-theme="b">
+    <h1><%=facility_title%></h1>
+    <a href="<%=url_for :controller=>:Facility,:action=>:show,:id=>@facility.object%>" data-direction="reverse" data-icon="back">Facility</a>
+    <a href="<%=Rho::RhoConfig.start_path%>" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-right jqm-home">Home</a>
+  </div><!-- /header -->
+
+  <div data-role="content" >
+      <div class="content-primary">
+        <ul data-role="listview">
+          <li data-role="list-divider"><%= @params['type'] == 'DeedsOffice' ? 'Deeds Offices' : 'Municipal Roll Registers'%><span class="ui-li-count"><%=@asset_informations.length%></span></li>
+            <% @asset_informations.each do |asset_information| %>
+              <li>
+                <a href="<%= url_for :controller => :AssetInformation,:action=>:edit,:id=>asset_information.object%>">
+                  <p><strong>Erf No.<%= asset_information.erf_number%> <%=asset_information.title_deed_number %></strong></p>
+                  <p><%=asset_information.extent%>m<sup>2</sup></p>
+                </a>
+              </li>
+          <% end %>
+         </ul>
+       </div>
+  </div><!-- /ui-body wrapper -->
+
+  <div data-role="footer" data-theme="b">
+     <a href="<%=url_for :controller=>:AssetInformation,:action=>:new,:query=>{:facility_id=>@facility.object,:type=>@params['type']}%>" data-icon="add">Add</a>
+  </div><!-- /header -->
+
+</div>

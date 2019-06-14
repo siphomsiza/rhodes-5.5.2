@@ -1,0 +1,21 @@
+<div data-role="collapsible" <%= 'data-collapsed="false"' if accessibility.access_feature_id.nil? %> >
+  <h3><%= accessibility.access_feature_id.nil? ? 'New feature' : accessibility.access_feature_text%></h3>
+  <form method="POST" action="<%= accessibility.access_feature_id.nil? ? url_for(:controller=>:Accessibility,:action=>:create,:query=>{:block=>@params['block']}) : url_for(:controller=>:Accessibility,:action=>:update,:id=>accessibility.object,:query=>{:block=>'2'}) %>" data-theme="b" data-ajax="false" >
+    <%if accessibility.access_feature_id.nil? %>
+      <label for="access_feature_id">Access feature:<%=show_error(@errors,:access_feature_id)%></label>
+      <%=select("accessibility[access_feature_id]",@access_features, accessibility.access_feature_id)%><br/>
+    <%end%>
+
+    <label for="accessibility[suitability_rating_id]">Suitability Rating:</label>
+    <%=select("accessibility[suitability_rating_id]",@suitability_ratings, accessibility.suitability_rating_id)%><br/>
+
+    <label for="comments">Comments:</label>
+    <input type="text" id="comments" name="accessibility[comments]" value="<%= accessibility.comments %>">
+
+    <input type="hidden" name="accessibility[facility_id]" value="<%= accessibility.facility_id %>"/>
+    <input type="submit" value="Save" data-inline="true"/>
+    <%unless accessibility.access_feature_id.nil?%>
+      <a href="<%=url_for :controller=>:Accessibility,:action=>:delete,:id=>accessibility.object,:query=>{:block=>@params['block']}%>" data-role="button" data-inline="true">Delete</a>
+    <%end%>
+   </form>
+</div>

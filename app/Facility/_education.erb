@@ -1,0 +1,20 @@
+<div data-role="collapsible" <%='data-collapsed="false"' if @params['box'] && (@params['box'] == '3')%>>
+  <h3>Norms and Standards</h3>
+  <div class="ui-grid-a">
+    <div class="ui-block-a">
+      <ul data-role="listview" data-inset="true">
+        <li><a href="<%= url_for :controller => :EducationalNorm, :action=>:show,:query=>{:facility_id => @facility.object} %>"  data-ajax="false">
+          <img src="/public/images/edu_norm_icon.png" /><h3>Educational<br/>Norms</h3></a></li>
+      </ul>
+    </div>
+    <div class="ui-block-b">
+      <ul data-role="listview" data-inset="true">
+        <li><a href="<%= url_for :controller => :EduClass, :action=>:index,:query=>{:facility_id => @facility.object} %>" data-ajax="false">
+          <img src="/public/images/grade_icon.png" /><h3>Grades</h3></a></li>
+        <li><a href="<%= url_for :controller => :Space, :action=>:index,:query=>{:t=>'OutsideSpace',:src_t=>'Facility',:src_id => @facility.object} %>" data-ajax="false">
+          <img src="/public/images/out_space_icon.png" /><h3>Outside<br/>Spaces</h3></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
